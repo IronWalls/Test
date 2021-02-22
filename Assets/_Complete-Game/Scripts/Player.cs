@@ -33,7 +33,7 @@ namespace Completed
             animator = GetComponent<Animator>();
 
             //Get the current food point total stored in GameManager.instance between levels.
-            food = GameManager.instance.playerFoodPoints;
+            food = GameManager.instance.settings.playerFoodPoints;
 
             //Set the foodText to reflect the current player food total.
             foodText.text = "Food: " + food;
@@ -47,7 +47,7 @@ namespace Completed
         private void OnDisable()
         {
             //When Player object is disabled, store the current local food total in the GameManager so it can be re-loaded in next level.
-            GameManager.instance.playerFoodPoints = food;
+            GameManager.instance.settings.playerFoodPoints = food;
         }
 
 
@@ -62,10 +62,10 @@ namespace Completed
             //Check if we are running either in the Unity editor or in a standalone build.
 #if UNITY_STANDALONE || UNITY_WEBPLAYER
             //Get input from the input manager, round it to an integer and store in horizontal to set x axis move direction
-            horizontal = (int) (Input.GetAxisRaw("Horizontal"));
+            horizontal = (int)(Input.GetAxisRaw("Horizontal"));
 
             //Get input from the input manager, round it to an integer and store in vertical to set y axis move direction
-            vertical = (int) (Input.GetAxisRaw("Vertical"));
+            vertical = (int)(Input.GetAxisRaw("Vertical"));
 
             //Check if moving horizontally, if so set vertical to zero.
             if (horizontal != 0)
