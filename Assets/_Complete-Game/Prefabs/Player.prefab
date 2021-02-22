@@ -161,6 +161,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16e3f930239ae4562865b7c0918b8677, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawnConrtoller: {fileID: 11400000, guid: 408ca09005a36ff4dbfc72eabb99f7c3, type: 2}
   moveTime: 0.1
   blockingLayer:
     serializedVersion: 2

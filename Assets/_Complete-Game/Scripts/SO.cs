@@ -10,7 +10,7 @@ public class SO : ScriptableObject
     // GameManager
     public float levelStartDelay;//Time to wait before starting level, in seconds.
     public float turnDelay; //Delay between each Player turn.
-    public int playerFoodPoints; //Starting value for Player food points.
+    public int playerFoodPoints = 100; //Starting value for Player food points.
 
     [SerializeField]
     public class Count

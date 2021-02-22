@@ -10,6 +10,7 @@ namespace Completed
     public class GameManager : MonoBehaviour
     {
         public SO settings;
+        public EnemiesContoroller enemiesContoroller;
         // public float levelStartDelay = 2f; //Time to wait before starting level, in seconds.
         // public float turnDelay = 0.1f; //Delay between each Player turn.
         // public int playerFoodPoints = 100; //Starting value for Player food points.
@@ -25,7 +26,7 @@ namespace Completed
         private GameObject levelImage; //Image to block out level as levels are being set up, background for levelText.
         private BoardManager boardScript; //Store a reference to our BoardManager which will set up the level.
         private int level = 1; //Current level number, expressed in game as "Day 1".
-        private List<Enemy> enemies; //List of all Enemy units, used to issue them move commands.
+        //public List<Enemy> enemies; //List of all Enemy units, used to issue them move commands.
         private bool enemiesMoving; //Boolean to check if enemies are moving.
 
         private bool
@@ -51,7 +52,7 @@ namespace Completed
             DontDestroyOnLoad(gameObject);
 
             //Assign enemies to a new List of Enemy objects.
-            enemies = new List<Enemy>();
+            enemiesContoroller.enemies = new List<Enemy>();
 
             //Get a component reference to the attached BoardManager script
             boardScript = GetComponent<BoardManager>();
@@ -99,7 +100,7 @@ namespace Completed
             Invoke("HideLevelImage", settings.levelStartDelay);
 
             //Clear any Enemy objects in our List to prepare for next level.
-            enemies.Clear();
+            enemiesContoroller.enemies.Clear();
 
             //Call the SetupScene function of the BoardManager script, pass it current level number.
             boardScript.SetupScene(level);
@@ -133,7 +134,7 @@ namespace Completed
         public void AddEnemyToList(Enemy script)
         {
             //Add Enemy to List enemies.
-            enemies.Add(script);
+            enemiesContoroller.enemies.Add(script);
         }
 
 
@@ -160,20 +161,20 @@ namespace Completed
             yield return new WaitForSeconds(settings.turnDelay);
 
             //If there are no enemies spawned (IE in first level):
-            if (enemies.Count == 0)
+            if (enemiesContoroller.enemies.Count == 0)
             {
                 //Wait for turnDelay seconds between moves, replaces delay caused by enemies moving when there are none.
                 yield return new WaitForSeconds(settings.turnDelay);
             }
 
             //Loop through List of Enemy objects.
-            for (int i = 0; i < enemies.Count; i++)
+            for (int i = 0; i < enemiesContoroller.enemies.Count; i++)
             {
                 //Call the MoveEnemy function of Enemy at index i in the enemies List.
-                enemies[i].MoveEnemy();
+                enemiesContoroller.enemies[i].MoveEnemy();
 
                 //Wait for Enemy's moveTime before moving next Enemy, 
-                yield return new WaitForSeconds(enemies[i].moveTime);
+                yield return new WaitForSeconds(enemiesContoroller.enemies[i].moveTime);
             }
 
             //Once Enemies are done moving, set playersTurn to true so player can move.
