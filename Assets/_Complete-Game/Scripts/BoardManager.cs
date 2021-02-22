@@ -9,7 +9,6 @@ namespace Completed
     public class BoardManager : MonoBehaviour
     {
         public SO settings;
-
         // Using Serializable allows us to embed a class with sub properties in the inspector.
         [Serializable]
         public class Count
@@ -17,13 +16,13 @@ namespace Completed
             public int minimum; //Minimum value for our Count class.
             public int maximum; //Maximum value for our Count class.
 
-
             //Assignment constructor.
             public Count(int min, int max)
             {
                 minimum = min;
                 maximum = max;
             }
+
         }
 
 
@@ -139,10 +138,12 @@ namespace Completed
             InitialiseList();
 
             //Instantiate a random number of wall tiles based on minimum and maximum, at randomized positions.
-            LayoutObjectAtRandom(settings.wallTiles, settings.wallCount.minimum, settings.wallCount.maximum);
+            LayoutObjectAtRandom(settings.wallTiles, wallCount.minimum, wallCount.maximum);
+
 
             //Instantiate a random number of food tiles based on minimum and maximum, at randomized positions.
-            LayoutObjectAtRandom(settings.foodTiles, settings.foodCount.minimum, settings.foodCount.maximum);
+            LayoutObjectAtRandom(settings.foodTiles, foodCount.minimum, foodCount.maximum);
+
 
             //Determine number of enemies based on current level number, based on a logarithmic progression
             int enemyCount = (int)Mathf.Log(level, 2f);

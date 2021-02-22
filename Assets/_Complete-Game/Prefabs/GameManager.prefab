@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   settings: {fileID: 11400000, guid: ca7c90f28ccd027419dbf4003d36a592, type: 2}
+  boardManager: {fileID: 11433658}
   enemiesContoroller: {fileID: 11400000, guid: 2057682d0c0a2bd4a9d36a293eff1b33, type: 2}
   playersTurn: 1
 --- !u!114 &11433658

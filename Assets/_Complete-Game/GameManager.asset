@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2ae5271d9fefa3942a0528bc2267d354, type: 3}
-  m_Name: SO
+  m_Name: GameManager
   m_EditorClassIdentifier: 
   levelStartDelay: 2
   turnDelay: 0.1
-  playerFoodPoints: 100
+  playerFoodPoints: 237
   columns: 8
   rows: 8
   exit: {fileID: 110520, guid: cb0f3020bafec423aa31d0e491c4b811, type: 3}
@@ -46,3 +46,5 @@ MonoBehaviour:
   - {fileID: 110520, guid: 7094f72151ec74f569c4e03f1ec0f8e7, type: 3}
   - {fileID: 110520, guid: b0ace21a29149403094422fb3bd96aa9, type: 3}
   - {fileID: 110520, guid: e85c94355cc4641da919bd5d0ac956d4, type: 3}
+  foodMessage: {fileID: 6728202641703691672, guid: f5626a6eed1bf5049aa1402599c812a1,
+    type: 3}

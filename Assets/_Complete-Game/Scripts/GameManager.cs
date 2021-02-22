@@ -10,6 +10,7 @@ namespace Completed
     public class GameManager : MonoBehaviour
     {
         public SO settings;
+        public BoardManager boardManager;
         public EnemiesContoroller enemiesContoroller;
         // public float levelStartDelay = 2f; //Time to wait before starting level, in seconds.
         // public float turnDelay = 0.1f; //Delay between each Player turn.
@@ -104,6 +105,7 @@ namespace Completed
 
             //Call the SetupScene function of the BoardManager script, pass it current level number.
             boardScript.SetupScene(level);
+
         }
 
 
@@ -128,6 +130,11 @@ namespace Completed
 
             //Start moving enemies.
             StartCoroutine(MoveEnemies());
+
+            if (boardManager.foodCount.maximum <= boardManager.foodCount.minimum * 2)
+            {
+                settings.foodMessage.SetActive(true);
+            }
         }
 
         //Call this to add the passed in Enemy to the List of Enemy objects.
