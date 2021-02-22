@@ -166,6 +166,7 @@ MonoBehaviour:
   blockingLayer:
     serializedVersion: 2
     m_Bits: 256
+  playerSpawnConrtoller: {fileID: 0}
   restartLevelDelay: 1
   pointsPerFood: 10
   pointsPerSoda: 20
