@@ -1,0 +1,25 @@
+Question 5
+The game designer is hoping to add a high score table. For now, they are happy to have it just locally,
+but in future wants to expand it to be shared across every player. Implement the system so that in the
+future, we can with minimum effort expand it to save and load the high scores from a server.
+
+Answer 5
+So first, i will create a list of player and theirs scores. 
+Then i need an FOR cycle for sort player's score. 
+If do this locacy, i would use PlayerPrefs to save values. Also i will be able to save data in .txt file. 
+Or, i will use FireBase and translate data directly to database.
+
+Question 6
+The new game designer has asked you what the impact of increasing the size of the levels dramatically
+will be. Review the project code and do the following tasks: A. First, create a list of
+refactors/optimizations with time estimates for each task B. Implement as many of the refactors as time
+allows
+
+Answer6
+1. Don't use Properties. Fields and Methods are best solutions.
+2. Cache whatever you get with GetComponent <>, including transforms, rigidbodies, etc.
+3. Cache all the math. Every call to Vector.Up will call the constructor under the hood, which is not very fast. 
+I would created a static CachedMath class in which all directions, commonly used vectors and quaternions were added.
+4. Never use foreach, just replace FOR if you want to save GC and precious CPU time. The use of generics often leads to the same consequences
+5. LINQ is another source of GC load. Try to simplify your LINQ expressions, or better yet, replace them entirely with simple constructs.
+6. Remove any empty Update and FixedUpdate methods. Also, if your script uses both or only fixed, then you should consider moving any possible logic from fixed to regular Update.
