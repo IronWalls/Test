@@ -147,7 +147,14 @@ namespace Completed
                     player = GameObject.Find("Player");
                     runTimer(level);
                 }
-            
+
+                //Set score of max level
+                int lvlCheck = PlayerPrefs.GetInt("maxLvl");
+                if (lvlCheck < level)
+                {
+                    PlayerPrefs.SetInt("maxLvl", level);
+                }
+                Camera.main.GetComponent<Loader>().maxLevel.text = lvlCheck.ToString();
         }
 
 

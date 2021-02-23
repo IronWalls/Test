@@ -7,8 +7,8 @@ namespace Completed
     {
         public GameObject gameManager; //GameManager prefab to instantiate.
         public GameObject soundManager; //SoundManager prefab to instantiate.
-        public Slider foodBar;
-
+        public Slider foodBar;//Food bar to indicate food count
+        public Text maxLevel;//Text field to view maximum level score
         void Awake()
         {
             //Check if a GameManager has already been assigned to static variable GameManager.instance or if it's still null
