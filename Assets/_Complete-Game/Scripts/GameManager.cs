@@ -9,9 +9,11 @@ namespace Completed
 
     public class GameManager : MonoBehaviour
     {
-        public float levelStartDelay = 2f; //Time to wait before starting level, in seconds.
-        public float turnDelay = 0.1f; //Delay between each Player turn.
-        public int playerFoodPoints = 100; //Starting value for Player food points.
+        public GameMode gameMode;
+
+        [HideInInspector] public float levelStartDelay = 2f; //Time to wait before starting level, in seconds.
+        [HideInInspector] public float turnDelay = 0.1f; //Delay between each Player turn.
+        [HideInInspector] public int playerFoodPoints = 100; //Starting value for Player food points.
 
         public static GameManager
             instance = null; //Static instance of GameManager which allows it to be accessed by any other script.
@@ -49,6 +51,9 @@ namespace Completed
             //Sets this to not be destroyed when reloading scene
             DontDestroyOnLoad(gameObject);
 
+            //Set game options from game mode
+            InitGameMode();
+
             //Assign enemies to a new List of Enemy objects.
             enemies = new List<Enemy>();
 
@@ -57,6 +62,19 @@ namespace Completed
 
             //Call the InitGame function to initialize the first level 
             InitGame();
+        }
+
+        private void InitGameMode() 
+        {
+            if (gameMode == null) 
+            {
+                Debug.LogWarning("No game mode was assigned! Using default game mode.");
+                gameMode = GameMode.GetDefaultGameMode();
+            }
+
+            levelStartDelay = gameMode.levelStartDelay;
+            turnDelay = gameMode.turnDelay;
+            playerFoodPoints = gameMode.playerFoodPoints;
         }
 
         //this is called only once, and the paramter tell it to be called only after the scene was loaded
