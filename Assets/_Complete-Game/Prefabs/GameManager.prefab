@@ -44,8 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7d59e4dfb9c9404b9471de0c983feac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyIsAlwayseMoving: 0
-  enemyDamage: 0
+  enemyDamageEncrease: 0
+  timerMod: 0
+  timeHitCount: 1
   levelStartDelay: 2
   turnDelay: 0.1
   playerFoodPoints: 100
@@ -94,6 +95,8 @@ MonoBehaviour:
   - {fileID: 110520, guid: 46e8bf4bf645a47e3ae1b60c7e18418c, type: 3}
   enemyTiles:
   - {fileID: 161064, guid: 089a2f2c322ea40f9afdfaba0550c6d3, type: 3}
+  - {fileID: 195068, guid: ebfba08a213d34c46ba2b1947aeaea83, type: 3}
+  - {fileID: 195068, guid: ebfba08a213d34c46ba2b1947aeaea83, type: 3}
   - {fileID: 195068, guid: ebfba08a213d34c46ba2b1947aeaea83, type: 3}
   outerWallTiles:
   - {fileID: 110520, guid: 7094f72151ec74f569c4e03f1ec0f8e7, type: 3}

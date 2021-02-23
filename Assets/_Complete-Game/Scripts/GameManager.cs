@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
 using System.Reflection;
+using UnityEngine.AI;
 
 namespace Completed
 {
@@ -11,11 +12,8 @@ namespace Completed
 
     public class GameManager : MonoBehaviour
     {
-        [Header("Game mode customization")]
-        [Tooltip("if not 0 then this modifier will be plussed on enemy damage variable")]
-        public int enemyDamageEncrease;// If not 0 then this modifier will be plussed on enemy damage variable
-        [Tooltip("if true game will count down timer, each second = hit player")]
-        public bool timerMod;//if true, at level init starting coroutine to hit player //TODO Bug: If mode was activated on last level then coroutine will not be stopped
+        private GameObject levelConfigurator;
+       
         [Tooltip("if timer mode is on, this variable will hit player every second")]
         public int timeHitCount=1;//how much hit player while timer mod is on
         
@@ -33,7 +31,7 @@ namespace Completed
         private Text levelText; //Text to display current level number.
         private GameObject levelImage; //Image to block out level as levels are being set up, background for levelText.
         private BoardManager boardScript; //Store a reference to our BoardManager which will set up the level.
-        private int level = 1; //Current level number, expressed in game as "Day 1".
+        public int level = 1; //Current level number, expressed in game as "Day 1".
         private List<Enemy> enemies; //List of all Enemy units, used to issue them move commands.
         private bool enemiesMoving; //Boolean to check if enemies are moving.
 
@@ -42,6 +40,11 @@ namespace Completed
 
 
         //Awake is always called before any Start functions
+        private void Start()
+        {
+            
+        }
+
         void Awake()
         {
             
@@ -87,26 +90,29 @@ namespace Completed
             
         }
 
-        private void runTimer()
+        private void runTimer(int lvl)
         {
             if (player != null)
             {
-                StartCoroutine(timerCount());
+                StartCoroutine(timerCount(lvl));
             }
         }
 
-        private IEnumerator timerCount()
+        private IEnumerator timerCount(int lvl)
         {
           
             yield return new WaitForSeconds(1);
-            if (timerMod)
-            {
+            
                 if (player != null)
                     {
                         player.GetComponent<Player>().LoseFood(timeHitCount);
-                        runTimer();
+                        if (lvl != level)
+                        {
+                            yield break;
+                        }
+                        runTimer(lvl);
                     }
-            }
+            
         }
         //Initializes the game for each level.
         void InitGame()
@@ -134,12 +140,12 @@ namespace Completed
 
             //Call the SetupScene function of the BoardManager script, pass it current level number.
             boardScript.SetupScene(level);
-           
-            
-                if (timerMod)
+
+                //If level have timer mode then run it
+                if (Camera.main.GetComponent<LevelConfiguratorManager>().LevelConfigs[level - 1].timerIsOn)
                 {
                     player = GameObject.Find("Player");
-                    runTimer();
+                    runTimer(level);
                 }
             
         }
@@ -174,11 +180,10 @@ namespace Completed
         //Call this to add the passed in Enemy to the List of Enemy objects.
         public void AddEnemyToList(Enemy script)
         {
-            if (enemyDamageEncrease != 0)
+            if (Camera.main.GetComponent<LevelConfiguratorManager>().LevelConfigs[level - 1].enemyHitModificator != 0)
             {
-                script.playerDamage = script.playerDamage+enemyDamageEncrease;
+                script.playerDamage = script.playerDamage+Camera.main.GetComponent<LevelConfiguratorManager>().LevelConfigs[level - 1].enemyHitModificator;;
             }
-
             //Add Enemy to List enemies.
             enemies.Add(script);
         }
@@ -212,16 +217,18 @@ namespace Completed
                 //Wait for turnDelay seconds between moves, replaces delay caused by enemies moving when there are none.
                 yield return new WaitForSeconds(turnDelay);
             }
+            
 
-            //Loop through List of Enemy objects.
-            for (int i = 0; i < enemies.Count; i++)
-            {
-                //Call the MoveEnemy function of Enemy at index i in the enemies List.
-                enemies[i].MoveEnemy();
+                //Loop through List of Enemy objects.
+                for (int i = 0; i < enemies.Count; i++)
+                {
+                    //Call the MoveEnemy function of Enemy at index i in the enemies List.
+                    enemies[i].MoveEnemy();
 
-                //Wait for Enemy's moveTime before moving next Enemy, 
-                yield return new WaitForSeconds(enemies[i].moveTime);
-            }
+                    //Wait for Enemy's moveTime before moving next Enemy, 
+                    yield return new WaitForSeconds(enemies[i].moveTime);
+                }
+            
 
             //Once Enemies are done moving, set playersTurn to true so player can move.
             playersTurn = true;

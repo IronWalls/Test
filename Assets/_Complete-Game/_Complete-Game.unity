@@ -167,8 +167,6 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: b284a6525342f44599e9ce79e37c2d61, type: 3}
     m_FontSize: 24
@@ -371,8 +369,6 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: b284a6525342f44599e9ce79e37c2d61, type: 3}
     m_FontSize: 32
@@ -409,6 +405,7 @@ GameObject:
   - component: {fileID: 1089777626}
   - component: {fileID: 1089777625}
   - component: {fileID: 1089777630}
+  - component: {fileID: 1089777631}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -510,6 +507,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameManager: {fileID: 133658, guid: 1ca8c6e960c494bbd937610290f80d1b, type: 3}
   soundManager: {fileID: 109316, guid: 76cd81135280f4ad6a4fa80f6422aea2, type: 3}
+--- !u!114 &1089777631
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1089777624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02fb189e4f007c6458a0343b8fa4f521, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LevelConfigs:
+  - timerIsOn: 0
+    enemyMinValue: 0
+    enemyMaxValue: 0
+    enemyHitModificator: 0
+    exitColumn: 4
+    exitRow: 4
+  - timerIsOn: 0
+    enemyMinValue: 1
+    enemyMaxValue: 4
+    enemyHitModificator: 0
+    exitColumn: 0
+    exitRow: 7
+  - timerIsOn: 1
+    enemyMinValue: 2
+    enemyMaxValue: 5
+    enemyHitModificator: 10
+    exitColumn: 7
+    exitRow: 0
 --- !u!1 &1410265689
 GameObject:
   m_ObjectHideFlags: 0
@@ -666,8 +694,6 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
