@@ -18,6 +18,9 @@ public class GameMode : ScriptableObject
     public float turnDelay = 0.1f; //Delay between each Player turn.
     public int playerFoodPoints = 100; //Starting value for Player food points.
 
+    public List<Vector3> possibleStartPositions = new List<Vector3>();
+    public List<Vector3> possibleExitPositions = new List<Vector3>();
+
     [Header("Enemy Settings")]
     public EnemyCountMode enemyCountMode;
 
@@ -29,6 +32,33 @@ public class GameMode : ScriptableObject
     public int enemyCountFixed = 2;
     [Min(2f)]
     public float enemyLevelMultiplicator = 2f;
+
+    private Vector3 deltaStartPosition;
+    public Vector3 GetStartPosition() 
+    {
+        if (possibleStartPositions.Count == 0)
+            return Vector3.zero;
+
+        int randomIndex = Random.Range(0, possibleStartPositions.Count);
+        return possibleStartPositions[randomIndex];
+    }
+    public Vector3 GetExitPosition() 
+    {
+        for (int i = possibleExitPositions.Count - 1; i > 0; i--)
+        {
+            if (possibleExitPositions[i] == deltaStartPosition) 
+            {
+                possibleExitPositions.RemoveAt(i);
+                break;
+            }
+        }
+
+        if (possibleExitPositions.Count == 0)
+            return new Vector3(0f, 1f, 0f);
+
+        int randomIndex = Random.Range(0, possibleExitPositions.Count - 1);
+        return possibleExitPositions[randomIndex];
+    }
 
     public int GetEnemyCount(int level = 0) 
     {

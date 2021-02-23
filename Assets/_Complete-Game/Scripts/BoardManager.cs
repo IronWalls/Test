@@ -30,6 +30,7 @@ namespace Completed
         public Count wallCount = new Count(5, 9); //Lower and upper limit for our random number of walls per level.
         public Count foodCount = new Count(1, 5); //Lower and upper limit for our random number of food items per level.
         public GameObject exit; //Prefab to spawn for exit.
+        public GameObject player => GameObject.Find("Player"); //Gameobject of player.
         public GameObject[] floorTiles; //Array of floor prefabs.
         public GameObject[] wallTiles; //Array of wall prefabs.
         public GameObject[] foodTiles; //Array of food prefabs.
@@ -126,6 +127,37 @@ namespace Completed
             }
         }
 
+        private void MoveObjectAtFixed(Vector3 position, GameObject gameObject)
+        {
+            RemoveGridPositionAt(position);
+            gameObject.transform.position = position;
+        }
+        private void InstantiateObjectAtFixed(Vector3 position, GameObject gameObject)
+        {
+            if (position == null)
+            {
+                position = new Vector3(columns - 1, rows - 1, 0f);
+            }
+
+            RemoveGridPositionAt(position);
+            Instantiate(gameObject, position, Quaternion.identity);
+        }
+        private void RemoveGridPositionAt(Vector3 position)
+        {
+            for (int i = gridPositions.Count - 1; i > 0; i--)
+            {
+                if (gridPositions[i] == position)
+                {
+                    gridPositions.RemoveAt(i);
+                    break;
+                }
+                if (i == 0)
+                {
+                    Debug.LogError("Something went wrong");
+                }
+            }
+        }
+
 
         //SetupScene initializes our level and calls the previous functions to lay out the game board
         public void SetupScene(int level)
@@ -135,6 +167,11 @@ namespace Completed
 
             //Reset our list of gridpositions.
             InitialiseList();
+
+            //Moves player at one of the possible positions
+            MoveObjectAtFixed(GameManager.instance.gameMode.GetStartPosition(), player);
+            //Instantiate exit at one of the possible positions
+            InstantiateObjectAtFixed(GameManager.instance.gameMode.GetExitPosition(), exit);
 
             //Instantiate a random number of wall tiles based on minimum and maximum, at randomized positions.
             LayoutObjectAtRandom(wallTiles, wallCount.minimum, wallCount.maximum);
@@ -147,9 +184,6 @@ namespace Completed
 
             //Instantiate a random number of enemies based on minimum and maximum, at randomized positions.
             LayoutObjectAtRandom(enemyTiles, enemyCount, enemyCount);
-
-            //Instantiate the exit tile in the upper right hand corner of our game board
-            Instantiate(exit, new Vector3(columns - 1, rows - 1, 0f), Quaternion.identity);
         }
     }
 }
