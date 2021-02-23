@@ -312,6 +312,14 @@ PrefabInstance:
       propertyPath: foodText
       value: 
       objectReference: {fileID: 93537621}
+    - target: {fileID: 11446652, guid: 28b53fc28d3a140c392f0e2d919f9de1, type: 3}
+      propertyPath: foodCap
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 11446652, guid: 28b53fc28d3a140c392f0e2d919f9de1, type: 3}
+      propertyPath: foodCapMessage
+      value: max
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 28b53fc28d3a140c392f0e2d919f9de1, type: 3}
 --- !u!1 &640480130
