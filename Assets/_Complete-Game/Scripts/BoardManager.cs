@@ -83,7 +83,7 @@ namespace Completed
 
                     //Instantiate the GameObject instance using the prefab chosen for toInstantiate at the Vector3 corresponding to current grid position in loop, cast it to GameObject.
                     GameObject instance =
-                        Instantiate(toInstantiate, new Vector3(x, y, 0f), Quaternion.identity) as GameObject;
+                        Instantiate(toInstantiate, new Vector3(x, y, 0f), Quaternion.identity) as GameObject; //TODO: Crash if too many rows, columns
 
                     //Set the parent of our newly instantiated object instance to boardHolder, this is just organizational to avoid cluttering hierarchy.
                     instance.transform.SetParent(boardHolder);
