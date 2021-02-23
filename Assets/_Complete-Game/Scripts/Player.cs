@@ -22,6 +22,7 @@ namespace Completed
         public AudioClip gameOverSound; //Audio clip to play when player dies.
 
         public Text capText;
+        public FoodBar foodBar;
 
         private Animator animator; //Used to store a reference to the Player's animator component.
         private int food; //Used to store player food points total during level.
@@ -132,6 +133,8 @@ namespace Completed
             //Every time player moves, subtract from food points total.
             food--;
 
+            foodBar.UpdateBar(food);
+
             //Update food text display to reflect current score.
             foodText.text = "Food: " + food;
 
@@ -221,6 +224,7 @@ namespace Completed
 
         private void UpdateFood() 
         {
+            foodBar.UpdateBar(food);
             int foodCap = GameManager.instance.gameMode.foodCap;
             if (food < foodCap) return;
 
@@ -264,6 +268,7 @@ namespace Completed
 
             //Check to see if game has ended.
             CheckIfGameOver();
+            foodBar.UpdateBar(food);
         }
 
 
