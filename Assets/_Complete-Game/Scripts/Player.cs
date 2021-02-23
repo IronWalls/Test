@@ -23,7 +23,7 @@ namespace Completed
         private Animator animator; //Used to store a reference to the Player's animator component.
         private int food; //Used to store player food points total during level.
         public int foodCap; //Used to set cap of the max food points;
-        public string foodCapMessage;
+        public string foodCapMessage;//Used to set message of max food cap;
 #if UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE
 		private Vector2 touchOrigin = -Vector2.one;	//Used to store location of screen touch origin for mobile controls.
 #endif
@@ -55,6 +55,8 @@ namespace Completed
 
         private void Update()
         {
+            //Set foodbar value
+            Camera.main.GetComponent<Loader>().foodBar.value = (float)food/100f ;
             //If it's not the player's turn, exit the function.
             if (!GameManager.instance.playersTurn) return;
 

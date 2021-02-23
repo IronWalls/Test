@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using UnityEngine.UI;
 namespace Completed
 {
     public class Loader : MonoBehaviour
     {
         public GameObject gameManager; //GameManager prefab to instantiate.
         public GameObject soundManager; //SoundManager prefab to instantiate.
-        
+        public Slider foodBar;
 
         void Awake()
         {
