@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 namespace Completed
 {
@@ -19,6 +20,8 @@ namespace Completed
         public AudioClip drinkSound1; //1 of 2 Audio clips to play when player collects a soda object.
         public AudioClip drinkSound2; //2 of 2 Audio clips to play when player collects a soda object.
         public AudioClip gameOverSound; //Audio clip to play when player dies.
+
+        public Text capText;
 
         private Animator animator; //Used to store a reference to the Player's animator component.
         private int food; //Used to store player food points total during level.
@@ -195,6 +198,7 @@ namespace Completed
 
                 //Disable the food object the player collided with.
                 other.gameObject.SetActive(false);
+                UpdateFood();
             }
 
             //Check if the tag of the trigger collided with is Soda.
@@ -211,7 +215,28 @@ namespace Completed
 
                 //Disable the soda object the player collided with.
                 other.gameObject.SetActive(false);
+                UpdateFood();
             }
+        }
+
+        private void UpdateFood() 
+        {
+            int foodCap = GameManager.instance.gameMode.foodCap;
+            if (food < foodCap) return;
+
+            food = foodCap;
+            foodText.text = " Food: " + food;
+            StartCoroutine(ShowCapMessage(4f));
+        }
+        private IEnumerator ShowCapMessage(float timer) 
+        {
+            capText.text = GameManager.instance.gameMode.capMessage;
+            capText.gameObject.SetActive(true);
+            for (float i = timer; i > 0; i-= Time.deltaTime)
+            {
+                yield return null;
+            }
+            capText.gameObject.SetActive(false);
         }
 
 

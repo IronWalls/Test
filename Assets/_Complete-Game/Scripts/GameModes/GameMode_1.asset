@@ -15,3 +15,12 @@ MonoBehaviour:
   levelStartDelay: 2
   turnDelay: 0.1
   playerFoodPoints: 100
+  foodCap: 105
+  possibleStartPositions: []
+  possibleExitPositions: []
+  capMessage: You have reached food cap.
+  enemyCountMode: 0
+  enemyCountMin: 0
+  enemyCountMax: 4
+  enemyCountFixed: 2
+  enemyLevelMultiplicator: 2
