@@ -165,6 +165,9 @@ namespace Completed
 
             //Disable this GameManager.
             enabled = false;
+
+            PlayerScore.instance.UpdateScore(level);
+            PlayerScore.instance.OpenScoreBoard();
         }
 
         //Coroutine to move enemies in sequence.

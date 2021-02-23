@@ -11,7 +11,6 @@ public class FoodBar : MonoBehaviour
     public void UpdateBar(int currentFood) 
     {
         float foodPercentage = (float)currentFood / (float)GameManager.instance.gameMode.foodCap;
-        Debug.Log(foodPercentage);
 
         slider.value = foodPercentage;
     }
