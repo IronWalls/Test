@@ -1,6 +1,8 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using System.Reflection;
 
 namespace Completed
 {
@@ -9,10 +11,18 @@ namespace Completed
 
     public class GameManager : MonoBehaviour
     {
+        [Header("Game mode customization")]
+        [Tooltip("if not 0 then this modifier will be plussed on enemy damage variable")]
+        public int enemyDamageEncrease;// If not 0 then this modifier will be plussed on enemy damage variable
+        [Tooltip("if true game will count down timer, each second = hit player")]
+        public bool timerMod;//if true, at level init starting coroutine to hit player //TODO Bug: If mode was activated on last level then coroutine will not be stopped
+        [Tooltip("if timer mode is on, this variable will hit player every second")]
+        public int timeHitCount=1;//how much hit player while timer mod is on
+        
         public float levelStartDelay = 2f; //Time to wait before starting level, in seconds.
         public float turnDelay = 0.1f; //Delay between each Player turn.
         public int playerFoodPoints = 100; //Starting value for Player food points.
-
+        private GameObject player;//Find player at level init
         public static GameManager
             instance = null; //Static instance of GameManager which allows it to be accessed by any other script.
 
@@ -34,6 +44,7 @@ namespace Completed
         //Awake is always called before any Start functions
         void Awake()
         {
+            
             //Check if instance already exists
             if (instance == null)
 
@@ -73,9 +84,30 @@ namespace Completed
         {
             instance.level++;
             instance.InitGame();
+            
         }
 
+        private void runTimer()
+        {
+            if (player != null)
+            {
+                StartCoroutine(timerCount());
+            }
+        }
 
+        private IEnumerator timerCount()
+        {
+          
+            yield return new WaitForSeconds(1);
+            if (timerMod)
+            {
+                if (player != null)
+                    {
+                        player.GetComponent<Player>().LoseFood(timeHitCount);
+                        runTimer();
+                    }
+            }
+        }
         //Initializes the game for each level.
         void InitGame()
         {
@@ -102,6 +134,14 @@ namespace Completed
 
             //Call the SetupScene function of the BoardManager script, pass it current level number.
             boardScript.SetupScene(level);
+           
+            
+                if (timerMod)
+                {
+                    player = GameObject.Find("Player");
+                    runTimer();
+                }
+            
         }
 
 
@@ -119,18 +159,26 @@ namespace Completed
         void Update()
         {
             //Check that playersTurn or enemiesMoving or doingSetup are not currently true.
-            if (playersTurn || enemiesMoving || doingSetup)
+            
+                if (playersTurn || enemiesMoving || doingSetup)
 
-                //If any of these are true, return and do not start MoveEnemies.
-                return;
+                    //If any of these are true, return and do not start MoveEnemies.
+                    return;
 
-            //Start moving enemies.
-            StartCoroutine(MoveEnemies());
+                //Start moving enemies.
+                
+                    StartCoroutine(MoveEnemies());
         }
-
+        
+        
         //Call this to add the passed in Enemy to the List of Enemy objects.
         public void AddEnemyToList(Enemy script)
         {
+            if (enemyDamageEncrease != 0)
+            {
+                script.playerDamage = script.playerDamage+enemyDamageEncrease;
+            }
+
             //Add Enemy to List enemies.
             enemies.Add(script);
         }
