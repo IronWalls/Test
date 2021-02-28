@@ -155,13 +155,22 @@ namespace Completed
             LayoutObjectAtRandom(foodTiles, foodCount.minimum, foodCount.maximum);
 
             //Determine number of enemies based on current level number, based on a logarithmic progression
-            int enemyCount = (int) Mathf.Log(level, 2f);
+            //int enemyCount = (int) Mathf.Log(level, 2f);
+            
+            var enemyCount = AmountSpawnEnemy(level);
+            Debug.Log(enemyCount);
 
             //Instantiate a random number of enemies based on minimum and maximum, at randomized positions.
             LayoutObjectAtRandom(enemyTiles, enemyCount, enemyCount);
 
             //Instantiate the exit tile in the upper right hand corner of our game board
             Instantiate(exit, new Vector3(columns - 1, rows - 1, 0f), Quaternion.identity);
+        }
+
+        private int AmountSpawnEnemy(int level)
+        {
+            var ruleSpawnEnemy = FactorySpawnRule.GetRuleSpawnEnemy(levelParams.typeSpawnEnemy, levelParams.coefSpawnEnemy);
+            return ruleSpawnEnemy.RuleSpawn(level);
         }
     }
 }
