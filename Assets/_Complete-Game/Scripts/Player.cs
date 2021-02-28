@@ -19,11 +19,22 @@ namespace Completed
         public AudioClip drinkSound1; //1 of 2 Audio clips to play when player collects a soda object.
         public AudioClip drinkSound2; //2 of 2 Audio clips to play when player collects a soda object.
         public AudioClip gameOverSound; //Audio clip to play when player dies.
-
+        [SerializeField] Image foodBar;
         private Animator animator; //Used to store a reference to the Player's animator component.
         private int food; //Used to store player food points total during level.
         private int maxFood;
         private string textFoodIfMany;
+        private int ChangeFood
+        {
+            get => food;
+            set
+            {
+                food = value;
+                SetFoodBar(value, maxFood);
+            }
+        }
+
+
 
 #if UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE
 		private Vector2 touchOrigin = -Vector2.one;	//Used to store location of screen touch origin for mobile controls.
@@ -36,10 +47,10 @@ namespace Completed
             animator = GetComponent<Animator>();
 
             //Get the current food point total stored in GameManager.instance between levels.
-            food = GameManager.instance.playerFoodPoints;
+            ChangeFood = GameManager.instance.playerFoodPoints;
 
             //Set the foodText to reflect the current player food total.
-            foodText.text = "Food: " + food;
+            foodText.text = "Food: " + ChangeFood;
 
             //Call the Start function of the MovingObject base class.
             base.Start();
@@ -50,7 +61,7 @@ namespace Completed
         private void OnDisable()
         {
             //When Player object is disabled, store the current local food total in the GameManager so it can be re-loaded in next level.
-            GameManager.instance.playerFoodPoints = food;
+            GameManager.instance.playerFoodPoints = ChangeFood;
         }
 
 
@@ -130,10 +141,10 @@ namespace Completed
         protected override void AttemptMove<T>(int xDir, int yDir)
         {
             //Every time player moves, subtract from food points total.
-            food--;
+            ChangeFood--;
 
             //Update food text display to reflect current score.
-            foodText.text = "Food: " + food;
+            foodText.text = "Food: " + ChangeFood;
 
             //Call the AttemptMove method of the base class, passing in the component T (in this case Wall) and x and y direction to move.
             base.AttemptMove<T>(xDir, yDir);
@@ -210,20 +221,28 @@ namespace Completed
         }
 
         private void AddFood(int points)
-        {            
-            food += points;
-            var deltaFood = 0;
-            if (maxFood != 0 && food > maxFood)
+        {
+            ChangeFood += points;
+            if (maxFood != 0 && ChangeFood > maxFood)
             {
-                deltaFood = food - maxFood;
-                food = maxFood;
+                var deltaFood = ChangeFood - maxFood;
+                ChangeFood = maxFood;
                 var text = textFoodIfMany.Replace("избыток_еды", deltaFood.ToString());
                 foodText.text = text;
             }
             else
             {
-                foodText.text = "+" + points + " Food: " + food;
-            }            
+                foodText.text = "+" + points + " Food: " + ChangeFood;
+            }
+
+            SetFoodBar(ChangeFood, maxFood);
+
+        }
+
+        private void SetFoodBar(int foodNow, int maxFood)
+        {
+            if (maxFood == 0) maxFood = 100;
+            foodBar.fillAmount = (float)foodNow / (float)maxFood;
         }
 
         public void SetParamsFood(int maxFood, string text)
@@ -250,10 +269,10 @@ namespace Completed
             animator.SetTrigger("playerHit");
 
             //Subtract lost food points from the players total.
-            food -= loss;
+            ChangeFood -= loss;
 
             //Update the food display with the new total.
-            foodText.text = "-" + loss + " Food: " + food;
+            foodText.text = "-" + loss + " Food: " + ChangeFood;
 
             //Check to see if game has ended.
             CheckIfGameOver();
@@ -264,7 +283,7 @@ namespace Completed
         private void CheckIfGameOver()
         {
             //Check if food point total is less than or equal to zero.
-            if (food <= 0)
+            if (ChangeFood <= 0)
             {
                 //Call the PlaySingle function of SoundManager and pass it the gameOverSound as the audio clip to play.
                 SoundManager.instance.PlaySingle(gameOverSound);
