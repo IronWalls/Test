@@ -117,6 +117,23 @@ namespace Completed
             return randomPosition;
         }
 
+        void SetPosition(int x, int y)
+        {
+            int index = 0;
+            foreach(var pos in gridPositions)
+            {
+                var dX = Math.Abs((pos.x - x));
+                var dY = Math.Abs((pos.y - y));
+                if (dX < 0.1f && dY < 0.1f)
+                {
+                    Vector3 randomPosition = gridPositions[index];
+                    gridPositions.RemoveAt(index);
+                    return;
+                }
+                index++;
+            }            
+        }
+
 
         //LayoutObjectAtRandom accepts an array of game objects to choose from along with a minimum and maximum range for the number of objects to create.
         void LayoutObjectAtRandom(GameObject[] tileArray, int minimum, int maximum)
@@ -164,9 +181,47 @@ namespace Completed
             LayoutObjectAtRandom(enemyTiles, enemyCount, enemyCount);
 
             //Instantiate the exit tile in the upper right hand corner of our game board
-            Instantiate(exit, new Vector3(columns - 1, rows - 1, 0f), Quaternion.identity);
+            //Instantiate(exit, new Vector3(columns - 1, rows - 1, 0f), Quaternion.identity);
+            CreatePositionFinish();
+            CreatePositionStart();
         }
 
+        private void CreatePositionFinish()
+        {
+            var x = (int)levelParams.positionFinish.x;
+            var y = (int)levelParams.positionFinish.y;
+            if (x < 0 || x > columns || y < 0 || y > rows)
+            {
+                var pos = RandomPosition();
+                x = (int)pos.x;
+                y = (int)pos.y;
+            }
+            else
+            {
+                SetPosition(x, y);
+            }
+
+            Instantiate(exit, new Vector3(x, y, 0f), Quaternion.identity);
+        }
+
+        private void CreatePositionStart()
+        {
+            var player = GameObject.Find("Player");
+            var x = (int)levelParams.positionStart.x;
+            var y = (int)levelParams.positionStart.y;
+            if (x < 0 || x > columns || y < 0 || y > rows)
+            {
+                var pos = RandomPosition();
+                x = (int)pos.x;
+                y = (int)pos.y;
+            }
+            else
+            {
+                SetPosition(x, y);
+            }
+
+            player.transform.position = new Vector3(x, y, 0);
+        }
         private int AmountSpawnEnemy(int level)
         {
             var ruleSpawnEnemy = FactorySpawnRule.GetRuleSpawnEnemy(levelParams.typeSpawnEnemy, levelParams.coefSpawnEnemy);

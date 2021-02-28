@@ -16,6 +16,8 @@ public class LevelParams : ScriptableObject
     public GameObject[] foodTiles; //Array of food prefabs.
     public GameObject[] enemyTiles; //Array of enemy prefabs.
     public GameObject[] outerWallTiles; //Array of outer tile prefabs.
+    public Vector2 positionStart;
+    public Vector2 positionFinish;
 
     public TypeRuleSpawnEnemy typeSpawnEnemy;
     public float coefSpawnEnemy;
