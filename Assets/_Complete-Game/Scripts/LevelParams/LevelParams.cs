@@ -21,4 +21,7 @@ public class LevelParams : ScriptableObject
 
     public TypeRuleSpawnEnemy typeSpawnEnemy;
     public float coefSpawnEnemy;
+
+    public int maxFood;
+    public string textWhenManyFood;
 }

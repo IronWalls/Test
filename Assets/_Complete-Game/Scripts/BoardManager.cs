@@ -221,6 +221,8 @@ namespace Completed
             }
 
             player.transform.position = new Vector3(x, y, 0);
+            var playerComponent = player.GetComponent<Player>();
+            playerComponent.SetParamsFood(levelParams.maxFood, levelParams.textWhenManyFood);
         }
         private int AmountSpawnEnemy(int level)
         {

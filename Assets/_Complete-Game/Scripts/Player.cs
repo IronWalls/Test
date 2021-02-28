@@ -22,6 +22,9 @@ namespace Completed
 
         private Animator animator; //Used to store a reference to the Player's animator component.
         private int food; //Used to store player food points total during level.
+        private int maxFood;
+        private string textFoodIfMany;
+
 #if UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE
 		private Vector2 touchOrigin = -Vector2.one;	//Used to store location of screen touch origin for mobile controls.
 #endif
@@ -184,11 +187,7 @@ namespace Completed
             //Check if the tag of the trigger collided with is Food.
             else if (other.tag == "Food")
             {
-                //Add pointsPerFood to the players current food total.
-                food += pointsPerFood;
-
-                //Update foodText to represent current total and notify player that they gained points
-                foodText.text = "+" + pointsPerFood + " Food: " + food;
+                AddFood(pointsPerFood);
 
                 //Call the RandomizeSfx function of SoundManager and pass in two eating sounds to choose between to play the eating sound effect.
                 SoundManager.instance.RandomizeSfx(eatSound1, eatSound2);
@@ -200,11 +199,7 @@ namespace Completed
             //Check if the tag of the trigger collided with is Soda.
             else if (other.tag == "Soda")
             {
-                //Add pointsPerSoda to players food points total
-                food += pointsPerSoda;
-
-                //Update foodText to represent current total and notify player that they gained points
-                foodText.text = "+" + pointsPerSoda + " Food: " + food;
+                AddFood(pointsPerSoda);
 
                 //Call the RandomizeSfx function of SoundManager and pass in two drinking sounds to choose between to play the drinking sound effect.
                 SoundManager.instance.RandomizeSfx(drinkSound1, drinkSound2);
@@ -212,6 +207,29 @@ namespace Completed
                 //Disable the soda object the player collided with.
                 other.gameObject.SetActive(false);
             }
+        }
+
+        private void AddFood(int points)
+        {            
+            food += points;
+            var deltaFood = 0;
+            if (maxFood != 0 && food > maxFood)
+            {
+                deltaFood = food - maxFood;
+                food = maxFood;
+                var text = textFoodIfMany.Replace("избыток_еды", deltaFood.ToString());
+                foodText.text = text;
+            }
+            else
+            {
+                foodText.text = "+" + points + " Food: " + food;
+            }            
+        }
+
+        public void SetParamsFood(int maxFood, string text)
+        {
+            this.maxFood = maxFood;
+            textFoodIfMany = text;
         }
 
 

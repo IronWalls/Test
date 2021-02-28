@@ -53,3 +53,6 @@ MonoBehaviour:
   positionFinish: {x: 5, y: 5}
   typeSpawnEnemy: 1
   coefSpawnEnemy: 1
+  maxFood: 100
+  textWhenManyFood: "\u0415\u0434\u044B \u0431\u043E\u043B\u044C\u0448\u0435 \u043D\u0430
+    \u0438\u0437\u0431\u044B\u0442\u043E\u043A_\u0435\u0434\u044B"
