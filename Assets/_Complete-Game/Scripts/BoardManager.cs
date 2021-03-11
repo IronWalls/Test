@@ -24,6 +24,9 @@ namespace Completed
             }
         }
 
+        public int baseLog = 2; // Base log for enemy count
+        public Vector2Int stupidityExit = new Vector2Int(1, 1); // End position offset
+        public Vector2Int stupidityStart = new Vector2Int(1, 1); // Start position offset
 
         public int columns = 8; //Number of columns in our game board.
         public int rows = 8; //Number of rows in our game board.
@@ -39,9 +42,8 @@ namespace Completed
         private Transform boardHolder; //A variable to store a reference to the transform of our Board object.
         private List<Vector3> gridPositions = new List<Vector3>(); //A list of possible locations to place tiles.
 
-
-        //Clears our list gridPositions and prepares it to generate a new board.
-        void InitialiseList()
+		//Clears our list gridPositions and prepares it to generate a new board.
+		void InitialiseList()
         {
             //Clear our list gridPositions.
             gridPositions.Clear();
@@ -57,7 +59,6 @@ namespace Completed
                 }
             }
         }
-
 
         //Sets up the outer walls and floor (background) of the game board.
         void BoardSetup()
@@ -88,7 +89,6 @@ namespace Completed
             }
         }
 
-
         //RandomPosition returns a random position from our list gridPositions.
         Vector3 RandomPosition()
         {
@@ -104,7 +104,6 @@ namespace Completed
             //Return the randomly selected Vector3 position.
             return randomPosition;
         }
-
 
         //LayoutObjectAtRandom accepts an array of game objects to choose from along with a minimum and maximum range for the number of objects to create.
         void LayoutObjectAtRandom(GameObject[] tileArray, int minimum, int maximum)
@@ -143,13 +142,18 @@ namespace Completed
             LayoutObjectAtRandom(foodTiles, foodCount.minimum, foodCount.maximum);
 
             //Determine number of enemies based on current level number, based on a logarithmic progression
-            int enemyCount = (int) Mathf.Log(level, 2f);
+            int enemyCount = (int)Mathf.Log(level, baseLog);
 
             //Instantiate a random number of enemies based on minimum and maximum, at randomized positions.
             LayoutObjectAtRandom(enemyTiles, enemyCount, enemyCount);
 
             //Instantiate the exit tile in the upper right hand corner of our game board
-            Instantiate(exit, new Vector3(columns - 1, rows - 1, 0f), Quaternion.identity);
-        }
+            Instantiate(exit, new Vector3(columns - stupidityExit.x, rows - stupidityExit.y, 0f), Quaternion.identity);
+
+			//Find the current Player GameObject
+			var player = GameObject.FindGameObjectWithTag("Player");
+			//Setting the player to the starting position
+			player.transform.localPosition = new Vector3(stupidityStart.x, stupidityStart.y, 0f);
+		}
     }
 }
