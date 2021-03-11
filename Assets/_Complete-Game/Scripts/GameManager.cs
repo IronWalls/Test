@@ -12,12 +12,12 @@ namespace Completed
     {
 
         [SerializeField] private GameMode gameMode;
-        public GameMode CurrentGameMode => gameMode;
-        /*
-        public float levelStartDelay = 2f; //Time to wait before starting level, in seconds.
-        public float turnDelay = 0.1f; //Delay between each Player turn.
-        public int playerFoodPoints = 100; //Starting value for Player food points.
-        */
+        public RecordsPanel recordsPanel;
+
+        [HideInInspector] public float levelStartDelay = 2f; //Time to wait before starting level, in seconds.
+        [HideInInspector] public float turnDelay = 0.1f; //Delay between each Player turn.
+        [HideInInspector] public int playerFoodPoints = 100; //Starting value for Player food points.
+        
         [SerializeField] private GameMessage message; 
         public static GameManager
             instance = null; //Static instance of GameManager which allows it to be accessed by any other script.
@@ -61,8 +61,11 @@ namespace Completed
             //Get a component reference to the attached BoardManager script
             boardScript = GetComponent<BoardManager>();
 
+            GameModeInit();
+
             //Call the InitGame function to initialize the first level 
             InitGame();
+
         }
 
         //this is called only once, and the paramter tell it to be called only after the scene was loaded
@@ -81,6 +84,14 @@ namespace Completed
             instance.InitGame();
         }
 
+        void GameModeInit()
+        {
+            levelStartDelay = gameMode.levelStartDelay;
+            turnDelay = gameMode.turnDelay;
+            playerFoodPoints = gameMode.playerFoodPoints;
+            playersTurn = true;
+            enemiesMoving = false;
+        }
         //Initializes the game for each level.
         void InitGame()
         {
@@ -150,11 +161,12 @@ namespace Completed
         //GameOver is called when the player reaches 0 food points
         public void GameOver()
         {
-            //Set levelText to display number of levels passed and game over message
-            levelText.text = "After " + level + " days, you starved.";
+            var resultPanel = Instantiate(recordsPanel, FindObjectOfType<Canvas>().transform);
+            resultPanel.Init(level, () => { level = 0; enabled = true; GameModeInit(); SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single); });
+           
 
             //Enable black background image gameObject.
-            levelImage.SetActive(true);
+            //levelImage.SetActive(true);
 
             //Disable this GameManager.
             enabled = false;

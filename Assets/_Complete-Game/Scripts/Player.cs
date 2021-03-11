@@ -55,7 +55,7 @@ namespace Completed
             animator = GetComponent<Animator>();
 
             //Get the current food point total stored in GameManager.instance between levels.
-            Food = GameManager.instance.CurrentGameMode.playerFoodPoints;
+            Food = GameManager.instance.playerFoodPoints;
 
             //Set the foodText to reflect the current player food total.
 
@@ -78,15 +78,17 @@ namespace Completed
         private void OnDisable()
         {
             //When Player object is disabled, store the current local food total in the GameManager so it can be re-loaded in next level.
-            GameManager.instance.CurrentGameMode.playerFoodPoints = food;
+            if (Food > 0)
+            {
+                GameManager.instance.playerFoodPoints = food;
+            }
         }
 
 
         private void Update()
         {
             //If it's not the player's turn, exit the function.
-            if (!GameManager.instance.playersTurn) return;
-
+            if (!GameManager.instance.playersTurn || (Food <= 0)) return;
             int horizontal = 0; //Used to store the horizontal move direction.
             int vertical = 0; //Used to store the vertical move direction.
 
@@ -158,7 +160,7 @@ namespace Completed
         protected override void AttemptMove<T>(int xDir, int yDir)
         {
             //Every time player moves, subtract from food points total.
-            food--;
+            Food--;
 
             //Update food text display to reflect current score.
             //foodText.text = "Food: " + food;

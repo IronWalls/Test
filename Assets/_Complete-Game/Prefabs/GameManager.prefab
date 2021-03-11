@@ -45,6 +45,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameMode: {fileID: 11400000, guid: b2e6be1154ab8e24e978073ffa1cccb3, type: 2}
+  recordsPanel: {fileID: 8057666524251548073, guid: f6aa90f6845857341bf01dda058a9b71,
+    type: 3}
   message: {fileID: 7531034963711069529, guid: 315c020fe3ea14040936e3599ba9a813, type: 3}
   playersTurn: 1
 --- !u!114 &11433658

@@ -18,6 +18,7 @@ public class FoodBar : MonoBehaviour
         MaxFood = maxValue;
         bar.maxValue = maxValue;
         UpdateData(curValue);
+        transform.SetAsFirstSibling();
     }
 
     public void UpdateData(int curValue)
