@@ -32,7 +32,7 @@ namespace Completed
         private int level = 1; //Current level number, expressed in game as "Day 1".
         private List<Enemy> enemies; //List of all Enemy units, used to issue them move commands.
         private bool enemiesMoving; //Boolean to check if enemies are moving.
-
+        private GameMessage activeMessage;
         private bool
             doingSetup = true; //Boolean to check if we're setting up board, prevent Player from moving during setup.
 
@@ -109,9 +109,11 @@ namespace Completed
             boardScript.SetupScene(level);
         }
 
-        public void Message(MessageType messageType)
+        public void Message(MessageType messageType,string value = "")
         {
-            Instantiate(message, FindObjectOfType<Canvas>().transform).ShowMessage(messageType);
+            activeMessage = Instantiate(message, FindObjectOfType<Canvas>().transform);
+            activeMessage.transform.localPosition += Vector3.up * 50 * FindObjectsOfType<GameMessage>().Length;
+            activeMessage.ShowMessage(messageType, value);
         }
 
         //Hides black image used between levels

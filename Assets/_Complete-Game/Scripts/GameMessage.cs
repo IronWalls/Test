@@ -17,18 +17,20 @@ public class GameMessage : MonoBehaviour
 
     public enum MessageType
     {
-        FoodLimit
+        FoodLimit,
+        LostFood,
+        GetFood,
     }
 
     public Message[] messages;
 
-    public void ShowMessage(MessageType messageType)
+    public void ShowMessage(MessageType messageType, string value)
     {
         try
         {
             var matchingMessages = Array.FindAll(messages, m => m.type == messageType);
             var message = matchingMessages[UnityEngine.Random.Range(0, matchingMessages.Length)];
-            GetComponent<Text>().text = message.message;
+            GetComponent<Text>().text = message.message + value;
             Destroy(gameObject, message.showTime);
         }
         catch

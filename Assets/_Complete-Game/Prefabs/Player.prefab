@@ -170,6 +170,9 @@ MonoBehaviour:
   pointsPerSoda: 20
   maxFood: 140
   wallDamage: 1
+  useFootBar: 1
+  foodbarPrefab: {fileID: 4598089674046562444, guid: dfb32add28223ad4f924a378b642bc9f,
+    type: 3}
   foodTextPrefab: {fileID: 8524942466749737833, guid: 69c12d5e5e897534aa194245c2f3290a,
     type: 3}
   moveSound1: {fileID: 8300000, guid: 892962212a4b74d1c9f578a3b6ea6439, type: 3}

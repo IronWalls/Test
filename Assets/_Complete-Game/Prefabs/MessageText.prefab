@@ -94,3 +94,12 @@ MonoBehaviour:
   - type: 0
     message: Reduce your calorie intake!
     showTime: 2
+  - type: 1
+    message: 'Food is lost: '
+    showTime: 2
+  - type: 2
+    message: 'Food received: '
+    showTime: 2
+  - type: 0
+    message: You can't get more food
+    showTime: 2

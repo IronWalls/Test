@@ -11,9 +11,11 @@ namespace Completed
         public int pointsPerFood = 10; //Number of points to add to player food points when picking up a food object.
         public int pointsPerSoda = 20; //Number of points to add to player food points when picking up a soda object.
         [Min(0)]
-        public int maxFood = 200; 
+        public int maxFood = 200;
         public int wallDamage = 1; //How much damage a player does to a wall when chopping it.
-        public Text foodTextPrefab; //UI Text to display current player food total.
+        public bool useFootBar = true;
+        public FoodBar foodbarPrefab; 
+        public Text foodTextPrefab; 
         private Text foodText; //UI Text to display current player food total.
         public AudioClip moveSound1; //1 of 2 Audio clips to play when player moves.
         public AudioClip moveSound2; //2 of 2 Audio clips to play when player moves.
@@ -24,17 +26,22 @@ namespace Completed
         public AudioClip gameOverSound; //Audio clip to play when player dies.
 
         private Animator animator; //Used to store a reference to the Player's animator component.
+
         private int food; //Used to store player food points total during level.
 
         public int Food
         {
-            get  { return food; }
+            get { return food; }
             set
             {
-                if (value > maxFood) {GameManager.instance.Message(GameMessage.MessageType.FoodLimit); };
+                if (value > maxFood) { GameManager.instance.Message(GameMessage.MessageType.FoodLimit); };
                 food = Mathf.Clamp(value, 0, maxFood);
+                foodValueChange?.Invoke(food);
             }
         }
+
+        public delegate void foodHanddler(int curValue);
+        public event foodHanddler foodValueChange;
 
 #if UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE
 		private Vector2 touchOrigin = -Vector2.one;	//Used to store location of screen touch origin for mobile controls.
@@ -43,6 +50,7 @@ namespace Completed
         //Start overrides the Start function of MovingObject
         protected override void Start()
         {
+        
             //Get a component reference to the Player's animator component
             animator = GetComponent<Animator>();
 
@@ -50,13 +58,21 @@ namespace Completed
             Food = GameManager.instance.CurrentGameMode.playerFoodPoints;
 
             //Set the foodText to reflect the current player food total.
-            foodText =  Instantiate(foodTextPrefab, FindObjectOfType<Canvas>().transform);
-            foodText.text = "Food: " + food;
+
+            var footBar = Instantiate(foodbarPrefab, FindObjectOfType<Canvas>().transform);
+            footBar.Init(Food, maxFood);
+            foodValueChange += footBar.UpdateData;
+           // foodText = Instantiate(foodTextPrefab, FindObjectOfType<Canvas>().transform);
+           // foodText.text = "Food: " + food;
 
             //Call the Start function of the MovingObject base class.
             base.Start();
         }
 
+        private void ChangeOfState(GameMessage.MessageType messageType, int curFoodValue)
+        {
+            GameManager.instance.Message(messageType, curFoodValue.ToString());
+        }
 
         //This function is called when the behaviour becomes disabled or inactive.
         private void OnDisable()
@@ -77,10 +93,10 @@ namespace Completed
             //Check if we are running either in the Unity editor or in a standalone build.
 #if UNITY_STANDALONE || UNITY_WEBPLAYER
             //Get input from the input manager, round it to an integer and store in horizontal to set x axis move direction
-            horizontal = (int) (Input.GetAxisRaw("Horizontal"));
+            horizontal = (int)(Input.GetAxisRaw("Horizontal"));
 
             //Get input from the input manager, round it to an integer and store in vertical to set y axis move direction
-            vertical = (int) (Input.GetAxisRaw("Vertical"));
+            vertical = (int)(Input.GetAxisRaw("Vertical"));
 
             //Check if moving horizontally, if so set vertical to zero.
             if (horizontal != 0)
@@ -145,7 +161,7 @@ namespace Completed
             food--;
 
             //Update food text display to reflect current score.
-            foodText.text = "Food: " + food;
+            //foodText.text = "Food: " + food;
 
             //Call the AttemptMove method of the base class, passing in the component T (in this case Wall) and x and y direction to move.
             base.AttemptMove<T>(xDir, yDir);
@@ -203,8 +219,8 @@ namespace Completed
                 Food += pointsPerFood;
 
                 //Update foodText to represent current total and notify player that they gained points
-                foodText.text = "+" + pointsPerFood + " Food: " + food;
-
+                //foodText.text = "+" + pointsPerFood + " Food: " + food;
+                ChangeOfState(GameMessage.MessageType.GetFood, pointsPerFood);
                 //Call the RandomizeSfx function of SoundManager and pass in two eating sounds to choose between to play the eating sound effect.
                 SoundManager.instance.RandomizeSfx(eatSound1, eatSound2);
 
@@ -219,8 +235,8 @@ namespace Completed
                 Food += pointsPerSoda;
 
                 //Update foodText to represent current total and notify player that they gained points
-                foodText.text = "+" + pointsPerSoda + " Food: " + food;
-
+                //foodText.text = "+" + pointsPerSoda + " Food: " + food;
+                ChangeOfState(GameMessage.MessageType.GetFood, pointsPerSoda);
                 //Call the RandomizeSfx function of SoundManager and pass in two drinking sounds to choose between to play the drinking sound effect.
                 SoundManager.instance.RandomizeSfx(drinkSound1, drinkSound2);
 
@@ -250,7 +266,8 @@ namespace Completed
             Food -= loss;
 
             //Update the food display with the new total.
-            foodText.text = "-" + loss + " Food: " + food;
+            //foodText.text = "-" + loss + " Food: " + food;
+            ChangeOfState(GameMessage.MessageType.LostFood, loss);
 
             //Check to see if game has ended.
             CheckIfGameOver();
