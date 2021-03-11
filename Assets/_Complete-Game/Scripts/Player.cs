@@ -10,6 +10,8 @@ namespace Completed
         public float restartLevelDelay = 1f; //Delay time in seconds to restart level.
         public int pointsPerFood = 10; //Number of points to add to player food points when picking up a food object.
         public int pointsPerSoda = 20; //Number of points to add to player food points when picking up a soda object.
+        [Min(0)]
+        public int maxFood = 200; 
         public int wallDamage = 1; //How much damage a player does to a wall when chopping it.
         public Text foodTextPrefab; //UI Text to display current player food total.
         private Text foodText; //UI Text to display current player food total.
@@ -23,6 +25,17 @@ namespace Completed
 
         private Animator animator; //Used to store a reference to the Player's animator component.
         private int food; //Used to store player food points total during level.
+
+        public int Food
+        {
+            get  { return food; }
+            set
+            {
+                if (value > maxFood) {GameManager.instance.Message(GameMessage.MessageType.FoodLimit); };
+                food = Mathf.Clamp(value, 0, maxFood);
+            }
+        }
+
 #if UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE
 		private Vector2 touchOrigin = -Vector2.one;	//Used to store location of screen touch origin for mobile controls.
 #endif
@@ -34,7 +47,7 @@ namespace Completed
             animator = GetComponent<Animator>();
 
             //Get the current food point total stored in GameManager.instance between levels.
-            food = GameManager.instance.CurrentGameMode.playerFoodPoints;
+            Food = GameManager.instance.CurrentGameMode.playerFoodPoints;
 
             //Set the foodText to reflect the current player food total.
             foodText =  Instantiate(foodTextPrefab, FindObjectOfType<Canvas>().transform);
@@ -187,7 +200,7 @@ namespace Completed
             else if (other.tag == "Food")
             {
                 //Add pointsPerFood to the players current food total.
-                food += pointsPerFood;
+                Food += pointsPerFood;
 
                 //Update foodText to represent current total and notify player that they gained points
                 foodText.text = "+" + pointsPerFood + " Food: " + food;
@@ -203,7 +216,7 @@ namespace Completed
             else if (other.tag == "Soda")
             {
                 //Add pointsPerSoda to players food points total
-                food += pointsPerSoda;
+                Food += pointsPerSoda;
 
                 //Update foodText to represent current total and notify player that they gained points
                 foodText.text = "+" + pointsPerSoda + " Food: " + food;
@@ -234,7 +247,7 @@ namespace Completed
             animator.SetTrigger("playerHit");
 
             //Subtract lost food points from the players total.
-            food -= loss;
+            Food -= loss;
 
             //Update the food display with the new total.
             foodText.text = "-" + loss + " Food: " + food;
@@ -248,7 +261,7 @@ namespace Completed
         private void CheckIfGameOver()
         {
             //Check if food point total is less than or equal to zero.
-            if (food <= 0)
+            if (Food <= 0)
             {
                 //Call the PlaySingle function of SoundManager and pass it the gameOverSound as the audio clip to play.
                 SoundManager.instance.PlaySingle(gameOverSound);

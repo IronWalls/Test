@@ -6,6 +6,7 @@ namespace Completed
 {
     using System.Collections.Generic; //Allows us to use Lists. 
     using UnityEngine.UI; //Allows us to use UI.
+    using static GameMessage;
 
     public class GameManager : MonoBehaviour
     {
@@ -17,7 +18,7 @@ namespace Completed
         public float turnDelay = 0.1f; //Delay between each Player turn.
         public int playerFoodPoints = 100; //Starting value for Player food points.
         */
-
+        [SerializeField] private GameMessage message; 
         public static GameManager
             instance = null; //Static instance of GameManager which allows it to be accessed by any other script.
 
@@ -26,6 +27,7 @@ namespace Completed
 
         private Text levelText; //Text to display current level number.
         private GameObject levelImage; //Image to block out level as levels are being set up, background for levelText.
+      
         private BoardManager boardScript; //Store a reference to our BoardManager which will set up the level.
         private int level = 1; //Current level number, expressed in game as "Day 1".
         private List<Enemy> enemies; //List of all Enemy units, used to issue them move commands.
@@ -79,7 +81,6 @@ namespace Completed
             instance.InitGame();
         }
 
-
         //Initializes the game for each level.
         void InitGame()
         {
@@ -108,6 +109,10 @@ namespace Completed
             boardScript.SetupScene(level);
         }
 
+        public void Message(MessageType messageType)
+        {
+            Instantiate(message, FindObjectOfType<Canvas>().transform).ShowMessage(messageType);
+        }
 
         //Hides black image used between levels
         void HideLevelImage()

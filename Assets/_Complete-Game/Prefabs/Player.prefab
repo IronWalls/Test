@@ -168,6 +168,7 @@ MonoBehaviour:
   restartLevelDelay: 1
   pointsPerFood: 10
   pointsPerSoda: 20
+  maxFood: 140
   wallDamage: 1
   foodTextPrefab: {fileID: 8524942466749737833, guid: 69c12d5e5e897534aa194245c2f3290a,
     type: 3}
