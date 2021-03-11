@@ -33,7 +33,7 @@ namespace Completed
             animator = GetComponent<Animator>();
 
             //Get the current food point total stored in GameManager.instance between levels.
-            food = GameManager.instance.playerFoodPoints;
+            food = GameManager.instance.levelData.playerFoodPoints;
 
             //Set the foodText to reflect the current player food total.
             foodText.text = "Food: " + food;
@@ -47,7 +47,7 @@ namespace Completed
         private void OnDisable()
         {
             //When Player object is disabled, store the current local food total in the GameManager so it can be re-loaded in next level.
-            GameManager.instance.playerFoodPoints = food;
+            GameManager.instance.levelData.playerFoodPoints = food;
         }
 
 
