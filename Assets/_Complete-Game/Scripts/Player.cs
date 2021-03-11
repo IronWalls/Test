@@ -11,7 +11,8 @@ namespace Completed
         public int pointsPerFood = 10; //Number of points to add to player food points when picking up a food object.
         public int pointsPerSoda = 20; //Number of points to add to player food points when picking up a soda object.
         public int wallDamage = 1; //How much damage a player does to a wall when chopping it.
-        public Text foodText; //UI Text to display current player food total.
+        public Text foodTextPrefab; //UI Text to display current player food total.
+        private Text foodText; //UI Text to display current player food total.
         public AudioClip moveSound1; //1 of 2 Audio clips to play when player moves.
         public AudioClip moveSound2; //2 of 2 Audio clips to play when player moves.
         public AudioClip eatSound1; //1 of 2 Audio clips to play when player collects a food object.
@@ -36,6 +37,7 @@ namespace Completed
             food = GameManager.instance.CurrentGameMode.playerFoodPoints;
 
             //Set the foodText to reflect the current player food total.
+            foodText =  Instantiate(foodTextPrefab, FindObjectOfType<Canvas>().transform);
             foodText.text = "Food: " + food;
 
             //Call the Start function of the MovingObject base class.

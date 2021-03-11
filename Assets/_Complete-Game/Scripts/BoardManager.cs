@@ -2,6 +2,9 @@
 using System;
 using System.Collections.Generic; //Allows us to use Lists.
 using Random = UnityEngine.Random; //Tells Random to use the Unity Engine random number generator.
+using System.Linq.Expressions;
+using System.Data;
+using System.Linq;
 
 namespace Completed
 
@@ -23,25 +26,41 @@ namespace Completed
                 maximum = max;
             }
         }
+        [Header("Enemies")]
+        [Tooltip("Enter the formula for calculating the number of enemies taking into account the 'level' parameter \n Example: 2*level+1")]
+        public string NumberOfEnemies = "2*level";
+        [Min(0)]
+        public int MaxEnemies = 64;
 
-
+        [Header("Board")]
         public int columns = 8; //Number of columns in our game board.
         public int rows = 8; //Number of rows in our game board.
         public Count wallCount = new Count(5, 9); //Lower and upper limit for our random number of walls per level.
         public Count foodCount = new Count(1, 5); //Lower and upper limit for our random number of food items per level.
-        public GameObject exit; //Prefab to spawn for exit.
+    
         public GameObject[] floorTiles; //Array of floor prefabs.
         public GameObject[] wallTiles; //Array of wall prefabs.
         public GameObject[] foodTiles; //Array of food prefabs.
         public GameObject[] enemyTiles; //Array of enemy prefabs.
         public GameObject[] outerWallTiles; //Array of outer tile prefabs.
 
+        [Header("Exit")]
+        public GameObject exit; //Prefab to spawn for exit.
+        public Vector2[] PossibleExitPositions;
+        private Vector2 DefalutExitPositions;
+
+        [Header("Player")]
+        public bool useTheExitPositionsForThePlayer = false;
+        public GameObject player; 
+        public Vector2[] PossiblePlayerPositions;
+        private Vector2 DefalutPlayerPositions;
+
         private Transform boardHolder; //A variable to store a reference to the transform of our Board object.
         private List<Vector3> gridPositions = new List<Vector3>(); //A list of possible locations to place tiles.
 
 
         //Clears our list gridPositions and prepares it to generate a new board.
-        void InitialiseList()
+        void InitialiseList(Vector3 exitPosition, Vector3 playerPosition)
         {
             //Clear our list gridPositions.
             gridPositions.Clear();
@@ -56,6 +75,9 @@ namespace Completed
                     gridPositions.Add(new Vector3(x, y, 0f));
                 }
             }
+
+            gridPositions.Remove(exitPosition);
+            gridPositions.Remove(playerPosition);
         }
 
 
@@ -86,6 +108,9 @@ namespace Completed
                     instance.transform.SetParent(boardHolder);
                 }
             }
+
+            DefalutExitPositions = new Vector2(columns - 1, rows - 1);
+            DefalutPlayerPositions = Vector2.zero;
         }
 
 
@@ -97,7 +122,6 @@ namespace Completed
 
             //Declare a variable of type Vector3 called randomPosition, set it's value to the entry at randomIndex from our List gridPositions.
             Vector3 randomPosition = gridPositions[randomIndex];
-
             //Remove the entry at randomIndex from the list so that it can't be re-used.
             gridPositions.RemoveAt(randomIndex);
 
@@ -133,8 +157,15 @@ namespace Completed
             //Creates the outer walls and floor.
             BoardSetup();
 
+            var exitPosition = PositionCheck(PossibleExitPositions.Length > 0 ? PossibleExitPositions[Random.Range(0, PossibleExitPositions.Length)] : DefalutExitPositions);
+
+            List<Vector2> possiblePlayerPositions = (useTheExitPositionsForThePlayer ? PossibleExitPositions : PossiblePlayerPositions).ToList();
+            possiblePlayerPositions.Remove(exitPosition);
+
+            var playerPosition = PositionCheck(possiblePlayerPositions.Count > 0 ? possiblePlayerPositions[Random.Range(0, possiblePlayerPositions.Count)] : DefalutPlayerPositions);
+
             //Reset our list of gridpositions.
-            InitialiseList();
+            InitialiseList(exitPosition, playerPosition);
 
             //Instantiate a random number of wall tiles based on minimum and maximum, at randomized positions.
             LayoutObjectAtRandom(wallTiles, wallCount.minimum, wallCount.maximum);
@@ -143,13 +174,33 @@ namespace Completed
             LayoutObjectAtRandom(foodTiles, foodCount.minimum, foodCount.maximum);
 
             //Determine number of enemies based on current level number, based on a logarithmic progression
-            int enemyCount = (int) Mathf.Log(level, 2f);
-
+            // int enemyCount = (int) Mathf.Log(level, 2f);
+            int enemyCount;
+            try
+            {
+                enemyCount = Mathf.Clamp( (int) new DataTable().Compute(NumberOfEnemies.Replace("level", level.ToString()), ""),0, MaxEnemies);
+            }
+            catch
+            {
+                Debug.LogError("Syntax error while writing a formula");
+                enemyCount = (int)Mathf.Log(level, 2f);
+            }
             //Instantiate a random number of enemies based on minimum and maximum, at randomized positions.
             LayoutObjectAtRandom(enemyTiles, enemyCount, enemyCount);
 
             //Instantiate the exit tile in the upper right hand corner of our game board
-            Instantiate(exit, new Vector3(columns - 1, rows - 1, 0f), Quaternion.identity);
+
+            Instantiate(exit, exitPosition, Quaternion.identity);
+
+
+            Instantiate(player, playerPosition, Quaternion.identity);
+        }
+
+        public Vector2 PositionCheck(Vector2 pos)
+        {
+            pos.x = Mathf.Clamp(pos.x,0, columns - 1);
+            pos.y = Mathf.Clamp(pos.y, 0, rows - 1);
+            return pos;
         }
     }
 }

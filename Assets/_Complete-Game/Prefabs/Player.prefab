@@ -169,7 +169,8 @@ MonoBehaviour:
   pointsPerFood: 10
   pointsPerSoda: 20
   wallDamage: 1
-  foodText: {fileID: 0}
+  foodTextPrefab: {fileID: 8524942466749737833, guid: 69c12d5e5e897534aa194245c2f3290a,
+    type: 3}
   moveSound1: {fileID: 8300000, guid: 892962212a4b74d1c9f578a3b6ea6439, type: 3}
   moveSound2: {fileID: 8300000, guid: a826bc3d758db43d6ae9caf415b63d1d, type: 3}
   eatSound1: {fileID: 8300000, guid: 1cb61f83d60374c7389bb547431919e3, type: 3}
