@@ -20,6 +20,9 @@ namespace Completed
         public AudioClip drinkSound2; //2 of 2 Audio clips to play when player collects a soda object.
         public AudioClip gameOverSound; //Audio clip to play when player dies.
 
+        public int maxFood = 200; // Maximum amount of food
+        public string messageMaxFood = "Maximum food"; // Message when there is more food
+
         private Animator animator; //Used to store a reference to the Player's animator component.
         private int food; //Used to store player food points total during level.
 #if UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE
@@ -187,8 +190,17 @@ namespace Completed
                 //Add pointsPerFood to the players current food total.
                 food += pointsPerFood;
 
-                //Update foodText to represent current total and notify player that they gained points
-                foodText.text = "+" + pointsPerFood + " Food: " + food;
+                // If there is more food than you can take
+                if ( food > maxFood) 
+                {
+                    food = maxFood;
+                    foodText.text = messageMaxFood;
+                }
+                else
+				{
+                    //Update foodText to represent current total and notify player that they gained points
+                    foodText.text = "+" + pointsPerFood + " Food: " + food;
+                }
 
                 //Call the RandomizeSfx function of SoundManager and pass in two eating sounds to choose between to play the eating sound effect.
                 SoundManager.instance.RandomizeSfx(eatSound1, eatSound2);
