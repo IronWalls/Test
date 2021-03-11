@@ -12,6 +12,7 @@ namespace Completed
         public int pointsPerSoda = 20; //Number of points to add to player food points when picking up a soda object.
         public int wallDamage = 1; //How much damage a player does to a wall when chopping it.
         public Text foodText; //UI Text to display current player food total.
+        public FoodBar foodBar; // FoodBar UI for show count of food
         public AudioClip moveSound1; //1 of 2 Audio clips to play when player moves.
         public AudioClip moveSound2; //2 of 2 Audio clips to play when player moves.
         public AudioClip eatSound1; //1 of 2 Audio clips to play when player collects a food object.
@@ -40,6 +41,9 @@ namespace Completed
 
             //Set the foodText to reflect the current player food total.
             foodText.text = "Food: " + food;
+
+            foodBar.Target = gameObject;
+            foodBar.SetBar(maxFood, food);
 
             //Call the Start function of the MovingObject base class.
             base.Start();
@@ -224,6 +228,9 @@ namespace Completed
                 //Disable the soda object the player collided with.
                 other.gameObject.SetActive(false);
             }
+
+
+            foodBar.SetBar(maxFood, food);
         }
 
 
@@ -248,6 +255,8 @@ namespace Completed
 
             //Update the food display with the new total.
             foodText.text = "-" + loss + " Food: " + food;
+
+            foodBar.SetBar(maxFood, food);
 
             //Check to see if game has ended.
             CheckIfGameOver();
