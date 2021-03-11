@@ -6,9 +6,9 @@ using UnityEngine;
 public class LevelData : ScriptableObject
 {
     [Tooltip("Time to wait before starting level, in seconds.")]
-    [SerializeField] public float levelStartDelay = 2f; 
+    public float levelStartDelay = 2f; 
     [Tooltip("Delay between each Player turn.")]
-    [SerializeField] public float turnDelay = 0.1f;
+    public float turnDelay = 0.1f;
     [Tooltip("Starting value for Player food points.")]
-    [SerializeField] public int playerFoodPoints = 100;
+    public int playerFoodPoints = 100;
 }
