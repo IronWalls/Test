@@ -60,8 +60,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fff182172d726402b9e9eacdb89c9724, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  difficultyLevel: 2
   columns: 8
   rows: 8
+  exitSpawnX: 3
+  exitSpawnY: 15
   wallCount:
     minimum: 5
     maximum: 9

@@ -12,6 +12,8 @@ namespace Completed
         [Serializable]
         public class Count
         {
+            
+
             public int minimum; //Minimum value for our Count class.
             public int maximum; //Maximum value for our Count class.
 
@@ -24,9 +26,20 @@ namespace Completed
             }
         }
 
+        [Range(2f, 1.1f)]
+        public float difficultyLevel = 2;//Change enemy spawn per level
+
+        
 
         public int columns = 8; //Number of columns in our game board.
         public int rows = 8; //Number of rows in our game board.
+
+        public int exitSpawnX; //Change x position of the exit
+        public int exitSpawnY; //Change y position of the exit
+
+
+
+
         public Count wallCount = new Count(5, 9); //Lower and upper limit for our random number of walls per level.
         public Count foodCount = new Count(1, 5); //Lower and upper limit for our random number of food items per level.
         public GameObject exit; //Prefab to spawn for exit.
@@ -136,6 +149,10 @@ namespace Completed
             //Reset our list of gridpositions.
             InitialiseList();
 
+            //Instantiate the exit tile in the upper right hand corner of our game board
+
+            InstantiateExit(exitSpawnX, exitSpawnY);
+            //Instantiate(exit, new Vector3(columns - Mathf.Clamp(exitSpawnX, 0, columns), rows - 1, 0f), Quaternion.identity);
             //Instantiate a random number of wall tiles based on minimum and maximum, at randomized positions.
             LayoutObjectAtRandom(wallTiles, wallCount.minimum, wallCount.maximum);
 
@@ -143,13 +160,30 @@ namespace Completed
             LayoutObjectAtRandom(foodTiles, foodCount.minimum, foodCount.maximum);
 
             //Determine number of enemies based on current level number, based on a logarithmic progression
-            int enemyCount = (int) Mathf.Log(level, 2f);
-
+            int enemyCount = (int) Mathf.Log(level, difficultyLevel);
             //Instantiate a random number of enemies based on minimum and maximum, at randomized positions.
             LayoutObjectAtRandom(enemyTiles, enemyCount, enemyCount);
 
-            //Instantiate the exit tile in the upper right hand corner of our game board
-            Instantiate(exit, new Vector3(columns - 1, rows - 1, 0f), Quaternion.identity);
+            
+            
+        }
+
+        void InstantiateExit(int xSpawn, int ySpawn)
+        {
+            if (xSpawn > ySpawn)
+            {
+                Instantiate(exit, new Vector3(columns - Mathf.Clamp(xSpawn, 0, columns), rows - 1, 0f), Quaternion.identity);
+            }
+            else if (xSpawn < ySpawn)
+            {
+                Instantiate(exit, new Vector3(columns - 1, rows - Mathf.Clamp(ySpawn, 0, rows), 0f), Quaternion.identity);
+            }
+            else if (xSpawn == ySpawn)
+            {
+                Instantiate(exit, new Vector3(columns - 1, rows - 1, 0f), Quaternion.identity);
+            }
+            
+
         }
     }
 }
