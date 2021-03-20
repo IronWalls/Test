@@ -24,4 +24,13 @@ public class GameMode : ScriptableObject
     public GameObject[] enemyTiles;
     public GameObject[] outerWallTiles;
 
+    //For the enemy count
+    public int[] enemisAmount;
+
+    //Exit cordinates
+    public int exitColomn;
+    public int exitRow;
+
+    //Food cap
+
 }

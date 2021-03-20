@@ -25,18 +25,10 @@ namespace Completed
         }
 
         [SerializeField] private GameMode gameMode;
-        /*
-        //public int columns; //Number of columns in our game board.
-        //public int rows; //Number of rows in our game board.
-        //public Count wallCount; //Lower and upper limit for our random number of walls per level.
-        //public Count foodCount; //Lower and upper limit for our random number of food items per level.
-        //public GameObject exit; //Prefab to spawn for exit.
-        //public GameObject[] floorTiles; //Array of floor prefabs.
-        //public GameObject[] wallTiles; //Array of wall prefabs.
-        //public GameObject[] foodTiles; //Array of food prefabs.
-        //public GameObject[] enemyTiles; //Array of enemy prefabs.
-        //public GameObject[] outerWallTiles; //Array of outer tile prefabs.
-        */
+
+        public GameObject player;
+        private int _exitColumn;
+        private int _exitRow;
 
         private Transform boardHolder; //A variable to store a reference to the transform of our Board object.
         private List<Vector3> gridPositions = new List<Vector3>(); //A list of possible locations to place tiles.
@@ -127,6 +119,26 @@ namespace Completed
             }
         }
 
+        void CoordinatesCheck()
+        {
+            if (gameMode.exitColomn <= gameMode.columns)
+            {
+                _exitColumn = gameMode.exitColomn;
+            }
+            else
+            {
+                _exitColumn = gameMode.columns;
+            }
+
+            if (gameMode.exitRow <= gameMode.rows)
+            {
+                _exitRow = gameMode.exitRow;
+            }
+            else
+            {
+                _exitRow = gameMode.rows;
+            }
+        }
 
         //SetupScene initializes our level and calls the previous functions to lay out the game board
         public void SetupScene(int level)
@@ -144,13 +156,14 @@ namespace Completed
             LayoutObjectAtRandom(gameMode.foodTiles, gameMode.foodCountMinimum, gameMode.foodCountMaximum);
 
             //Determine number of enemies based on current level number, based on a logarithmic progression
-            int enemyCount = (int) Mathf.Log(level, 2f);
+            //int enemyCount = (int) Mathf.Log(level, 2f);
 
             //Instantiate a random number of enemies based on minimum and maximum, at randomized positions.
-            LayoutObjectAtRandom(gameMode.enemyTiles, enemyCount, enemyCount);
+            LayoutObjectAtRandom(gameMode.enemyTiles, gameMode.enemisAmount[level], gameMode.enemisAmount[level]);
 
+            CoordinatesCheck();
             //Instantiate the exit tile in the upper right hand corner of our game board
-            Instantiate(gameMode.exit, new Vector3(gameMode.columns - 1, gameMode.rows - 1, 0f), Quaternion.identity);
+            Instantiate(gameMode.exit, new Vector3(_exitColumn, _exitRow, 0f), Quaternion.identity);
         }
     }
 }

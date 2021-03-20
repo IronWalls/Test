@@ -40,3 +40,8 @@ MonoBehaviour:
   - {fileID: 195068, guid: ebfba08a213d34c46ba2b1947aeaea83, type: 3}
   outerWallTiles:
   - {fileID: 110520, guid: b0ace21a29149403094422fb3bd96aa9, type: 3}
+  enemisAmount: 000000000100000002000000
+  exitColomn: 7
+  exitRow: 1
+  playerColomn: 3
+  playerRow: 2
