@@ -48,6 +48,7 @@ MonoBehaviour:
   turnDelay: 0.1
   playerFoodPoints: 100
   playersTurn: 1
+  gameMode: {fileID: 11400000, guid: f3e1bbac7a419e74db8aa62857a0fbd2, type: 2}
 --- !u!114 &11433658
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -97,3 +98,4 @@ MonoBehaviour:
   - {fileID: 110520, guid: 7094f72151ec74f569c4e03f1ec0f8e7, type: 3}
   - {fileID: 110520, guid: b0ace21a29149403094422fb3bd96aa9, type: 3}
   - {fileID: 110520, guid: e85c94355cc4641da919bd5d0ac956d4, type: 3}
+  gameMode: {fileID: 11400000, guid: f3e1bbac7a419e74db8aa62857a0fbd2, type: 2}

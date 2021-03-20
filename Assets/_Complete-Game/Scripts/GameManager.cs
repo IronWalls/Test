@@ -9,9 +9,9 @@ namespace Completed
 
     public class GameManager : MonoBehaviour
     {
-        public float levelStartDelay = 2f; //Time to wait before starting level, in seconds.
-        public float turnDelay = 0.1f; //Delay between each Player turn.
-        public int playerFoodPoints = 100; //Starting value for Player food points.
+        public float levelStartDelay; //Time to wait before starting level, in seconds.
+        public float turnDelay; //Delay between each Player turn.
+        public int playerFoodPoints; //Starting value for Player food points.
 
         public static GameManager
             instance = null; //Static instance of GameManager which allows it to be accessed by any other script.
@@ -30,10 +30,16 @@ namespace Completed
         private bool
             doingSetup = true; //Boolean to check if we're setting up board, prevent Player from moving during setup.
 
+        [SerializeField]private GameMode gameMode;
+
 
         //Awake is always called before any Start functions
         void Awake()
         {
+            levelStartDelay = gameMode.levelStartDelay;
+            turnDelay = gameMode.turnDelay;
+            playerFoodPoints = gameMode.playerFoodPoints;
+
             //Check if instance already exists
             if (instance == null)
 
