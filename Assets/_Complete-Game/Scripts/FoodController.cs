@@ -9,6 +9,7 @@ namespace Completed
     {
         public Text foodCapText;
         public Slider foodBar;
+        public Text highScore;
         private void Start()
         {
             foodCapText.text = GameManager.instance.GameMode.foodCapMessage;
@@ -20,11 +21,18 @@ namespace Completed
         {
             Player.CheckingFoodCap += ProvideFoodCapMessage;
             Player.FoodBarTracker += ChangeBarStatus;
+            GameManager.LevelTracker += UpdateHighScore;
         }
         private void OnDisable()
         {
             Player.CheckingFoodCap -= ProvideFoodCapMessage;
             Player.FoodBarTracker -= ChangeBarStatus;
+            GameManager.LevelTracker -= UpdateHighScore;
+        }
+
+        void UpdateHighScore(int lvl)
+        {
+            highScore.text = "Highest Lvl: " + lvl.ToString();
         }
 
         void ProvideFoodCapMessage()

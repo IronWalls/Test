@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using System;
 
 namespace Completed
 {
@@ -26,7 +27,7 @@ namespace Completed
         private int level = 1; //Current level number, expressed in game as "Day 1".
         private List<Enemy> enemies; //List of all Enemy units, used to issue them move commands.
         private bool enemiesMoving; //Boolean to check if enemies are moving.
-
+        public static event Action<int> LevelTracker;
         private bool
             doingSetup = true; //Boolean to check if we're setting up board, prevent Player from moving during setup.
 
@@ -98,7 +99,19 @@ namespace Completed
 
             //Set the text of levelText to the string "Day" and append the current level number.
             levelText.text = "Day " + level;
-
+            if (LevelTracker != null)
+            {
+                if (level > PlayerPrefs.GetInt("Highest Lvl:", 0))
+                {
+                    PlayerPrefs.SetInt("Highest Lvl:", level);
+                    LevelTracker(level);
+                }
+                else
+                {
+                    LevelTracker(PlayerPrefs.GetInt("Highest Lvl:", 0));
+                }
+            }
+            
             //Set levelImage to active blocking player's view of the game board during setup.
             levelImage.SetActive(true);
 

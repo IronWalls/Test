@@ -24,8 +24,6 @@ namespace Completed
             }
         }
 
-        [SerializeField] private GameMode gameMode;
-
         private Transform boardHolder; //A variable to store a reference to the transform of our Board object.
         private List<Vector3> gridPositions = new List<Vector3>(); //A list of possible locations to place tiles.
 
@@ -36,10 +34,10 @@ namespace Completed
             gridPositions.Clear();
 
             //Loop through x axis (columns).
-            for (int x = 1; x < gameMode.columns - 1; x++)
+            for (int x = 1; x < GameManager.instance.GameMode.columns - 1; x++)
             {
                 //Within each column, loop through y axis (rows).
-                for (int y = 1; y < gameMode.rows - 1; y++)
+                for (int y = 1; y < GameManager.instance.GameMode.rows - 1; y++)
                 {
                     //At each index add a new Vector3 to our list with the x and y coordinates of that position.
                     gridPositions.Add(new Vector3(x, y, 0f));
@@ -55,17 +53,17 @@ namespace Completed
             boardHolder = new GameObject("Board").transform;
 
             //Loop along x axis, starting from -1 (to fill corner) with floor or outerwall edge tiles.
-            for (int x = -1; x < gameMode.columns + 1; x++)
+            for (int x = -1; x < GameManager.instance.GameMode.columns + 1; x++)
             {
                 //Loop along y axis, starting from -1 to place floor or outerwall tiles.
-                for (int y = -1; y < gameMode.rows + 1; y++)
+                for (int y = -1; y < GameManager.instance.GameMode.rows + 1; y++)
                 {
                     //Choose a random tile from our array of floor tile prefabs and prepare to instantiate it.
-                    GameObject toInstantiate = gameMode.floorTiles[Random.Range(0, gameMode.floorTiles.Length)];
+                    GameObject toInstantiate = GameManager.instance.GameMode.floorTiles[Random.Range(0, GameManager.instance.GameMode.floorTiles.Length)];
 
                     //Check if we current position is at board edge, if so choose a random outer wall prefab from our array of outer wall tiles.
-                    if (x == -1 || x == gameMode.columns || y == -1 || y == gameMode.rows)
-                        toInstantiate = gameMode.outerWallTiles[Random.Range(0, gameMode.outerWallTiles.Length)];
+                    if (x == -1 || x == GameManager.instance.GameMode.columns || y == -1 || y == GameManager.instance.GameMode.rows)
+                        toInstantiate = GameManager.instance.GameMode.outerWallTiles[Random.Range(0, GameManager.instance.GameMode.outerWallTiles.Length)];
 
                     //Instantiate the GameObject instance using the prefab chosen for toInstantiate at the Vector3 corresponding to current grid position in loop, cast it to GameObject.
                     GameObject instance =
@@ -117,7 +115,7 @@ namespace Completed
 
         bool CoordinatesCheck()
         {
-            return gameMode.exitColomn <= gameMode.columns && gameMode.exitRow <= gameMode.rows;
+            return GameManager.instance.GameMode.exitColomn <= GameManager.instance.GameMode.columns && GameManager.instance.GameMode.exitRow <= GameManager.instance.GameMode.rows;
         }
 
         //SetupScene initializes our level and calls the previous functions to lay out the game board
@@ -130,35 +128,35 @@ namespace Completed
             InitialiseList();
 
             //Instantiate a random number of wall tiles based on minimum and maximum, at randomized positions.
-            LayoutObjectAtRandom(gameMode.wallTiles, gameMode.wallCountMinimum, gameMode.wallCountMaximum);
+            LayoutObjectAtRandom(GameManager.instance.GameMode.wallTiles, GameManager.instance.GameMode.wallCountMinimum, GameManager.instance.GameMode.wallCountMaximum);
 
             //Instantiate a random number of food tiles based on minimum and maximum, at randomized positions.
-            LayoutObjectAtRandom(gameMode.foodTiles, gameMode.foodCountMinimum, gameMode.foodCountMaximum);
+            LayoutObjectAtRandom(GameManager.instance.GameMode.foodTiles, GameManager.instance.GameMode.foodCountMinimum, GameManager.instance.GameMode.foodCountMaximum);
 
             //Determine number of enemies based on current level number, based on a logarithmic progression
             //int enemyCount = (int) Mathf.Log(level, 2f);
 
-            if (gameMode.enemisAmount.Length > level )
+            if (GameManager.instance.GameMode.enemisAmount.Length > level )
             {
                 //Instantiate a random number of enemies based on minimum and maximum, at randomized positions.
-                LayoutObjectAtRandom(gameMode.enemyTiles, gameMode.enemisAmount[level], gameMode.enemisAmount[level]);
+                LayoutObjectAtRandom(GameManager.instance.GameMode.enemyTiles, GameManager.instance.GameMode.enemisAmount[level], GameManager.instance.GameMode.enemisAmount[level]);
             }
             else
             {
                 var enemyCount = (int)Mathf.Log(level, 2f);
-                LayoutObjectAtRandom(gameMode.enemyTiles, enemyCount, enemyCount);
+                LayoutObjectAtRandom(GameManager.instance.GameMode.enemyTiles, enemyCount, enemyCount);
             }
 
 
             if (CoordinatesCheck())
             {
                 //Instantiate the exit tile in the upper right hand corner of our game board
-                Instantiate(gameMode.exit, new Vector3(gameMode.exitColomn, gameMode.exitRow, 0f), Quaternion.identity);
+                Instantiate(GameManager.instance.GameMode.exit, new Vector3(GameManager.instance.GameMode.exitColomn, GameManager.instance.GameMode.exitRow, 0f), Quaternion.identity);
             }
             else
             {
                 //Instantiate the exit tile in the upper right hand corner of our game board
-                Instantiate(gameMode.exit, new Vector3(gameMode.columns - 1, gameMode.rows - 1, 0f), Quaternion.identity);
+                Instantiate(GameManager.instance.GameMode.exit, new Vector3(GameManager.instance.GameMode.columns - 1, GameManager.instance.GameMode.rows - 1, 0f), Quaternion.identity);
             }
             
         }
