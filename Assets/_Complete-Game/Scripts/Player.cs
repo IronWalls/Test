@@ -22,7 +22,8 @@ namespace Completed
         public AudioClip drinkSound2; //2 of 2 Audio clips to play when player collects a soda object.
         public AudioClip gameOverSound; //Audio clip to play when player dies.
 
-        public static event Action<int> CheckingFood;
+        public static event Action CheckingFoodCap;
+        public static event Action<int> FoodBarTracker;
 
         private Animator animator; //Used to store a reference to the Player's animator component.
         private int food; //Used to store player food points total during level.
@@ -133,12 +134,21 @@ namespace Completed
             }
         }
 
+        void CallFoodTrackerEvent(int value)
+        {
+            if (FoodBarTracker != null)
+            {
+                FoodBarTracker(value);
+            }
+        }
+
         //AttemptMove overrides the AttemptMove function in the base class MovingObject
         //AttemptMove takes a generic parameter T which for Player will be of the type Wall, it also takes integers for x and y direction to move in.
         protected override void AttemptMove<T>(int xDir, int yDir)
         {
             //Every time player moves, subtract from food points total.
             food--;
+            CallFoodTrackerEvent(food);
 
             //Update food text display to reflect current score.
             foodText.text = "Food: " + food;
@@ -200,7 +210,7 @@ namespace Completed
                     Debug.Log("Here");
                     //Add pointsPerFood to the players current food total.
                     food += pointsPerFood;
-
+                    CallFoodTrackerEvent(food);
                     //Update foodText to represent current total and notify player that they gained points
                     foodText.text = "+" + pointsPerFood + " Food: " + food;
 
@@ -212,9 +222,9 @@ namespace Completed
                 }
                 else
                 {
-                    if (CheckingFood != null)
+                    if (CheckingFoodCap != null)
                     {
-                        CheckingFood(food);
+                        CheckingFoodCap();
                     }
                 }
 
@@ -227,7 +237,7 @@ namespace Completed
                 {
                     //Add pointsPerSoda to players food points total
                     food += pointsPerSoda;
-
+                    CallFoodTrackerEvent(food);
                     //Update foodText to represent current total and notify player that they gained points
                     foodText.text = "+" + pointsPerSoda + " Food: " + food;
 
@@ -239,9 +249,9 @@ namespace Completed
                 }
                 else
                 {
-                    if (CheckingFood != null)
+                    if (CheckingFoodCap != null)
                     {
-                        CheckingFood(food);
+                        CheckingFoodCap();
                     }
                 }
             }
@@ -267,7 +277,7 @@ namespace Completed
 
             //Subtract lost food points from the players total.
             food -= loss;
-
+            CallFoodTrackerEvent(food);
             //Update the food display with the new total.
             foodText.text = "-" + loss + " Food: " + food;
 

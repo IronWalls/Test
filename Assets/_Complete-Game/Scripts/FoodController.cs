@@ -8,23 +8,33 @@ namespace Completed
     public class FoodController : MonoBehaviour
     {
         public Text foodCapText;
+        public Slider foodBar;
         private void Start()
         {
             foodCapText.text = GameManager.instance.GameMode.foodCapMessage;
+            foodBar.value = GameManager.instance.GameMode.playerFoodPoints;
+            foodBar.maxValue = GameManager.instance.GameMode.playerFoodPoints;
         }
 
         private void OnEnable()
         {
-            Player.CheckingFood += ProvideFoodCapMessage;
+            Player.CheckingFoodCap += ProvideFoodCapMessage;
+            Player.FoodBarTracker += ChangeBarStatus;
         }
         private void OnDisable()
         {
-            Player.CheckingFood -= ProvideFoodCapMessage;
+            Player.CheckingFoodCap -= ProvideFoodCapMessage;
+            Player.FoodBarTracker -= ChangeBarStatus;
         }
 
-        void ProvideFoodCapMessage(int currentFood)
+        void ProvideFoodCapMessage()
         {
             StartCoroutine(CallCapText());
+        }
+
+        void ChangeBarStatus(int currenFood)
+        {
+            foodBar.value = currenFood;
         }
 
         public IEnumerator CallCapText()
