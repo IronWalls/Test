@@ -27,13 +27,15 @@ public class GameMode : ScriptableObject
     //For the enemy count
     public int[] enemisAmount;
 
+    //Two sub tasks below done in 2 ways, 1 through dirrectly addresing columns and rows, second via vector
     //Exit cordinates
     public int exitColomn;
     public int exitRow;
-
+    //Player start cordinates
     public Vector2Int playerStartPosition;
 
     //Food cap
-
+    public int foodCapAmount;
     //Food cap message
+    public string foodCapMessage;
 }

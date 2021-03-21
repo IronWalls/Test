@@ -21,7 +21,7 @@ MonoBehaviour:
   wallCountMaximum: 9
   foodCountMinimum: 1
   foodCountMaximum: 5
-  exit: {fileID: 110520, guid: 46e8bf4bf645a47e3ae1b60c7e18418c, type: 3}
+  exit: {fileID: 110520, guid: cb0f3020bafec423aa31d0e491c4b811, type: 3}
   floorTiles:
   - {fileID: 106160, guid: 038998774947c4a8fa170d5b4492a7dd, type: 3}
   - {fileID: 106160, guid: 038998774947c4a8fa170d5b4492a7dd, type: 3}
@@ -29,18 +29,23 @@ MonoBehaviour:
   - {fileID: 106160, guid: 038998774947c4a8fa170d5b4492a7dd, type: 3}
   - {fileID: 106160, guid: 038998774947c4a8fa170d5b4492a7dd, type: 3}
   wallTiles:
-  - {fileID: 110520, guid: cb0f3020bafec423aa31d0e491c4b811, type: 3}
-  - {fileID: 110520, guid: cb0f3020bafec423aa31d0e491c4b811, type: 3}
-  - {fileID: 110520, guid: cb0f3020bafec423aa31d0e491c4b811, type: 3}
-  - {fileID: 110520, guid: cb0f3020bafec423aa31d0e491c4b811, type: 3}
-  - {fileID: 110520, guid: cb0f3020bafec423aa31d0e491c4b811, type: 3}
+  - {fileID: 110520, guid: 64139c47b57e34c5fa97fd79f8d25244, type: 3}
+  - {fileID: 110520, guid: 64139c47b57e34c5fa97fd79f8d25244, type: 3}
+  - {fileID: 110520, guid: 64139c47b57e34c5fa97fd79f8d25244, type: 3}
+  - {fileID: 110520, guid: 64139c47b57e34c5fa97fd79f8d25244, type: 3}
+  - {fileID: 110520, guid: 64139c47b57e34c5fa97fd79f8d25244, type: 3}
   foodTiles:
+  - {fileID: 110520, guid: ad25a4e752915438e9f55a35bedacf1f, type: 3}
+  - {fileID: 110520, guid: ad25a4e752915438e9f55a35bedacf1f, type: 3}
+  - {fileID: 110520, guid: ad25a4e752915438e9f55a35bedacf1f, type: 3}
   - {fileID: 110520, guid: ad25a4e752915438e9f55a35bedacf1f, type: 3}
   enemyTiles:
   - {fileID: 195068, guid: ebfba08a213d34c46ba2b1947aeaea83, type: 3}
   outerWallTiles:
   - {fileID: 110520, guid: b0ace21a29149403094422fb3bd96aa9, type: 3}
-  enemisAmount: 000000000100000002000000
+  enemisAmount: 000000000000000000000000
   exitColomn: 7
   exitRow: 1
   playerStartPosition: {x: 3, y: 1}
+  foodCapAmount: 110
+  foodCapMessage: You are too fat now (q_q)

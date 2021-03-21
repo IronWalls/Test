@@ -19,7 +19,7 @@ namespace Completed
         [HideInInspector]
         public bool playersTurn = true; //Boolean to check if it's players turn, hidden in inspector but public.
 
-
+        //private Text _foodCapText;
         private Text levelText; //Text to display current level number.
         private GameObject levelImage; //Image to block out level as levels are being set up, background for levelText.
         private BoardManager boardScript; //Store a reference to our BoardManager which will set up the level.
@@ -37,9 +37,10 @@ namespace Completed
         //Awake is always called before any Start functions
         void Awake()
         {
-            levelStartDelay = gameMode.levelStartDelay;
-            turnDelay = gameMode.turnDelay;
-            playerFoodPoints = gameMode.playerFoodPoints;
+            //_foodCapText.text = GameMode.foodCapMessage;
+            levelStartDelay = GameMode.levelStartDelay;
+            turnDelay = GameMode.turnDelay;
+            playerFoodPoints = GameMode.playerFoodPoints;
 
             //Check if instance already exists
             if (instance == null)

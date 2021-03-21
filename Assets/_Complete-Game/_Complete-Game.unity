@@ -142,7 +142,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1410265693}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.05}
   m_AnchorMax: {x: 0.5, y: 0.05}
@@ -188,6 +188,83 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 93537619}
+  m_CullTransparentMesh: 0
+--- !u!1 &148014561
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 148014562}
+  - component: {fileID: 148014564}
+  - component: {fileID: 148014563}
+  m_Layer: 5
+  m_Name: FoodCapText
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &148014562
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 148014561}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1410265693}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.35, y: 0.13}
+  m_AnchorMax: {x: 0.65, y: 0.2}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &148014563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 148014561}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.9528302, g: 0.27416337, b: 0.27416337, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: b284a6525342f44599e9ce79e37c2d61, type: 3}
+    m_FontSize: 30
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 3
+    m_MaxSize: 40
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
+    m_LineSpacing: 1
+  m_Text: Nope!
+--- !u!222 &148014564
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 148014561}
   m_CullTransparentMesh: 0
 --- !u!1 &429310784
 GameObject:
@@ -312,6 +389,10 @@ PrefabInstance:
       propertyPath: foodText
       value: 
       objectReference: {fileID: 93537621}
+    - target: {fileID: 11446652, guid: 28b53fc28d3a140c392f0e2d919f9de1, type: 3}
+      propertyPath: foodCapText
+      value: 
+      objectReference: {fileID: 148014563}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 28b53fc28d3a140c392f0e2d919f9de1, type: 3}
 --- !u!1 &640480130
@@ -405,6 +486,7 @@ GameObject:
   - component: {fileID: 1089777626}
   - component: {fileID: 1089777625}
   - component: {fileID: 1089777630}
+  - component: {fileID: 1089777631}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -506,6 +588,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameManager: {fileID: 133658, guid: 1ca8c6e960c494bbd937610290f80d1b, type: 3}
   soundManager: {fileID: 109316, guid: 76cd81135280f4ad6a4fa80f6422aea2, type: 3}
+--- !u!114 &1089777631
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1089777624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61f5db899043e67469043fc6c2da6cd1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foodCapText: {fileID: 148014563}
 --- !u!1 &1410265689
 GameObject:
   m_ObjectHideFlags: 0
@@ -596,6 +691,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
+  - {fileID: 148014562}
   - {fileID: 93537620}
   - {fileID: 1563974220}
   m_Father: {fileID: 0}
@@ -637,7 +733,7 @@ RectTransform:
   m_Children:
   - {fileID: 640480131}
   m_Father: {fileID: 1410265693}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
