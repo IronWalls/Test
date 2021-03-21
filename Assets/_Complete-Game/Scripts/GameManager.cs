@@ -30,6 +30,7 @@ namespace Completed
         private bool
             doingSetup = true; //Boolean to check if we're setting up board, prevent Player from moving during setup.
 
+        public GameMode GameMode => gameMode;
         [SerializeField]private GameMode gameMode;
 
 

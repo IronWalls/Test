@@ -43,5 +43,4 @@ MonoBehaviour:
   enemisAmount: 000000000100000002000000
   exitColomn: 7
   exitRow: 1
-  playerColomn: 3
-  playerRow: 2
+  playerStartPosition: {x: 3, y: 1}

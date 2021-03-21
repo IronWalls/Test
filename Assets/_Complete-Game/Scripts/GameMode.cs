@@ -31,6 +31,9 @@ public class GameMode : ScriptableObject
     public int exitColomn;
     public int exitRow;
 
+    public Vector2Int playerStartPosition;
+
     //Food cap
 
+    //Food cap message
 }

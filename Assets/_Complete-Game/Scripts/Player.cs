@@ -29,6 +29,13 @@ namespace Completed
         //Start overrides the Start function of MovingObject
         protected override void Start()
         {
+            var gameMode = GameManager.instance.GameMode;
+            if (gameMode.playerStartPosition.x < gameMode.columns && gameMode.playerStartPosition.y < gameMode.rows)
+            {
+                gameObject.transform.position = (Vector2)gameMode.playerStartPosition;
+            }
+            
+
             //Get a component reference to the Player's animator component
             animator = GetComponent<Animator>();
 
@@ -184,6 +191,7 @@ namespace Completed
             //Check if the tag of the trigger collided with is Food.
             else if (other.tag == "Food")
             {
+                
                 //Add pointsPerFood to the players current food total.
                 food += pointsPerFood;
 

@@ -26,10 +26,6 @@ namespace Completed
 
         [SerializeField] private GameMode gameMode;
 
-        public GameObject player;
-        private int _exitColumn;
-        private int _exitRow;
-
         private Transform boardHolder; //A variable to store a reference to the transform of our Board object.
         private List<Vector3> gridPositions = new List<Vector3>(); //A list of possible locations to place tiles.
 
@@ -119,25 +115,9 @@ namespace Completed
             }
         }
 
-        void CoordinatesCheck()
+        bool CoordinatesCheck()
         {
-            if (gameMode.exitColomn <= gameMode.columns)
-            {
-                _exitColumn = gameMode.exitColomn;
-            }
-            else
-            {
-                _exitColumn = gameMode.columns;
-            }
-
-            if (gameMode.exitRow <= gameMode.rows)
-            {
-                _exitRow = gameMode.exitRow;
-            }
-            else
-            {
-                _exitRow = gameMode.rows;
-            }
+            return gameMode.exitColomn <= gameMode.columns && gameMode.exitRow <= gameMode.rows;
         }
 
         //SetupScene initializes our level and calls the previous functions to lay out the game board
@@ -158,12 +138,29 @@ namespace Completed
             //Determine number of enemies based on current level number, based on a logarithmic progression
             //int enemyCount = (int) Mathf.Log(level, 2f);
 
-            //Instantiate a random number of enemies based on minimum and maximum, at randomized positions.
-            LayoutObjectAtRandom(gameMode.enemyTiles, gameMode.enemisAmount[level], gameMode.enemisAmount[level]);
+            if (gameMode.enemisAmount.Length > level )
+            {
+                //Instantiate a random number of enemies based on minimum and maximum, at randomized positions.
+                LayoutObjectAtRandom(gameMode.enemyTiles, gameMode.enemisAmount[level], gameMode.enemisAmount[level]);
+            }
+            else
+            {
+                var enemyCount = (int)Mathf.Log(level, 2f);
+                LayoutObjectAtRandom(gameMode.enemyTiles, enemyCount, enemyCount);
+            }
 
-            CoordinatesCheck();
-            //Instantiate the exit tile in the upper right hand corner of our game board
-            Instantiate(gameMode.exit, new Vector3(_exitColumn, _exitRow, 0f), Quaternion.identity);
+
+            if (CoordinatesCheck())
+            {
+                //Instantiate the exit tile in the upper right hand corner of our game board
+                Instantiate(gameMode.exit, new Vector3(gameMode.exitColomn, gameMode.exitRow, 0f), Quaternion.identity);
+            }
+            else
+            {
+                //Instantiate the exit tile in the upper right hand corner of our game board
+                Instantiate(gameMode.exit, new Vector3(gameMode.columns - 1, gameMode.rows - 1, 0f), Quaternion.identity);
+            }
+            
         }
     }
 }
