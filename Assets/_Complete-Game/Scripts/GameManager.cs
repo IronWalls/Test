@@ -58,6 +58,7 @@ namespace Completed
 
             //Call the InitGame function to initialize the first level 
             InitGame();
+
         }
 
         //this is called only once, and the paramter tell it to be called only after the scene was loaded
@@ -127,6 +128,7 @@ namespace Completed
 
             //Start moving enemies.
             StartCoroutine(MoveEnemies());
+
         }
 
         //Call this to add the passed in Enemy to the List of Enemy objects.
@@ -140,6 +142,12 @@ namespace Completed
         //GameOver is called when the player reaches 0 food points
         public void GameOver()
         {
+            //Save the record 
+            if (level > PlayerPrefs.GetInt("Highscore"))
+            {
+                PlayerPrefs.SetInt("Highscore", level);
+            }
+
             //Set levelText to display number of levels passed and game over message
             levelText.text = "After " + level + " days, you starved.";
 
