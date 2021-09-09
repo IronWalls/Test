@@ -1,0 +1,4 @@
+In case of increasing of the size of the levels dramatically:
+-MainCamera needs modification, so that all the game objects can be showed on the screen and 
+-GameManager script need improvements (playerFoodPoints, maxFoodCount should be modified)
+-Logic of the enemy spawn system also needs improvement in this case 

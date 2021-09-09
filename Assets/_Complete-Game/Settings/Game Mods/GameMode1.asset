@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ba71110b18855341aa127ebcc45d7ec, type: 3}
   m_Name: GameMode1
   m_EditorClassIdentifier: 
-  enemyMultiplier: 0
-  exitPositionX: 0
-  exitPositionY: 0
-  columns: 0
-  rows: 0
+  enemyMultiplier: 2
+  exitPositionX: 1
+  exitPositionY: 1
+  columns: 8
+  rows: 8

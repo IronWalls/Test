@@ -12,7 +12,7 @@ public class SliderController : MonoBehaviour
 
     private void Update()
     {
-        slider.value = valueVariable.value;
+        slider.value = valueVariable.value; //Controls slider. 
         slider.maxValue = maxValueVariable.value;
     }
 }

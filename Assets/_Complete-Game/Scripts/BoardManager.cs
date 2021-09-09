@@ -24,7 +24,7 @@ namespace Completed
             }
         }
 
-        public GameSettings gameSettings;
+        public GameSettings gameSettings; //Game Mode that controll game and level settings.
         public Count wallCount = new Count(5, 9); //Lower and upper limit for our random number of walls per level.
         public Count foodCount = new Count(1, 5); //Lower and upper limit for our random number of food items per level.
         public GameObject exit; //Prefab to spawn for exit.
