@@ -48,6 +48,7 @@ MonoBehaviour:
   turnDelay: 0.1
   maxFoodPoints: 120
   playerFoodPoints: 100
+  maxFoodCount: {fileID: 11400000, guid: cace38fafaea11a4481580f05218a5b6, type: 2}
   playersTurn: 1
 --- !u!114 &11433658
 MonoBehaviour:

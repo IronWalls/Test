@@ -21,28 +21,21 @@ namespace Completed
         public AudioClip drinkSound1; //1 of 2 Audio clips to play when player collects a soda object.
         public AudioClip drinkSound2; //2 of 2 Audio clips to play when player collects a soda object.
         public AudioClip gameOverSound; //Audio clip to play when player dies.
-        public Transform transformComponent; 
+        public Transform transformComponent; //Transform component
+        public IntVariable foodCounterVariable;
+        public IntVariable maxFoodCountVariable; 
 
         private Animator animator; //Used to store a reference to the Player's animator component.
-        private int food; //Used to store player food points total during level.
+
 
         //Limits and provides access to the food field.
-        private int Food
+        public int Food
         {
-            get
-            {
-                return food;
-            }
+            get => foodCounterVariable.value;  
+            
             set
             {
-                if (value > GameManager.instance.maxFoodPoints)
-                {
-                    food = GameManager.instance.maxFoodPoints;
-                }
-                else
-                {
-                    food = value;
-                }
+                foodCounterVariable.value = Mathf.Min(maxFoodCountVariable.value, value);
             }
         }
 #if UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE
@@ -243,7 +236,7 @@ namespace Completed
             }
 
             //Check if the food is maximum value and update foodText.
-            if(Food >= GameManager.instance.maxFoodPoints)
+            if(Food >= maxFoodCountVariable.value)
             {
                 if (foodMaxText == null)
                 {
