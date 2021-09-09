@@ -22,7 +22,7 @@ namespace Completed
         public AudioClip drinkSound2; //2 of 2 Audio clips to play when player collects a soda object.
         public AudioClip gameOverSound; //Audio clip to play when player dies.
         public Transform transformComponent; //Transform component
-        public IntVariable foodCounterVariable;
+        public IntVariable foodCounterVariable; 
         public IntVariable maxFoodCountVariable; 
 
         private Animator animator; //Used to store a reference to the Player's animator component.

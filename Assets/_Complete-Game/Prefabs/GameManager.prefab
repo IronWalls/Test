@@ -46,7 +46,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelStartDelay: 2
   turnDelay: 0.1
-  maxFoodPoints: 120
   playerFoodPoints: 100
   maxFoodCount: {fileID: 11400000, guid: cace38fafaea11a4481580f05218a5b6, type: 2}
   playersTurn: 1
@@ -62,11 +61,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fff182172d726402b9e9eacdb89c9724, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyMultiplier: 2
-  exitPositionX: 1
-  exitPositionY: 1
-  columns: 8
-  rows: 8
+  gameSettings: {fileID: 11400000, guid: 2c537aeab6e7e984590c00784fc10936, type: 2}
   wallCount:
     minimum: 5
     maximum: 9
