@@ -7,6 +7,7 @@ namespace Completed
     //Player inherits from MovingObject, our base class for objects that can move, Enemy also inherits from this.
     public class Player : MovingObject
     {
+        public Vector3 startPosition;
         public float restartLevelDelay = 1f; //Delay time in seconds to restart level.
         public int pointsPerFood = 10; //Number of points to add to player food points when picking up a food object.
         public int pointsPerSoda = 20; //Number of points to add to player food points when picking up a soda object.
@@ -19,6 +20,7 @@ namespace Completed
         public AudioClip drinkSound1; //1 of 2 Audio clips to play when player collects a soda object.
         public AudioClip drinkSound2; //2 of 2 Audio clips to play when player collects a soda object.
         public AudioClip gameOverSound; //Audio clip to play when player dies.
+        public Transform transformComponent; 
 
         private Animator animator; //Used to store a reference to the Player's animator component.
         private int food; //Used to store player food points total during level.
@@ -40,6 +42,12 @@ namespace Completed
 
             //Call the Start function of the MovingObject base class.
             base.Start();
+
+            //Nulify z value of the player position.
+            ResetPlayerPosition();
+
+            //Set player's position.
+            SetPlayerPosition();
         }
 
 
@@ -257,6 +265,21 @@ namespace Completed
                 //Call the GameOver function of GameManager.
                 GameManager.instance.GameOver();
             }
+        }
+
+
+        //Filter the position.
+        private void ResetPlayerPosition()
+        {
+            startPosition.z = 0;
+        }
+
+
+        //Set the position of the player.
+        private void SetPlayerPosition()
+        {
+            transformComponent = gameObject.GetComponent<Transform>();
+            transformComponent.position = startPosition;
         }
     }
 }
