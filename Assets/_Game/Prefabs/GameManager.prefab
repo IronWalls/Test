@@ -44,9 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7d59e4dfb9c9404b9471de0c983feac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelStartDelay: 2
-  turnDelay: 0.1
-  playerFoodPoints: 100
+  settings: {fileID: 11400000, guid: 31ccb82e5e61a9d44ba3782b9fad5847, type: 2}
   playersTurn: 1
 --- !u!114 &11433658
 MonoBehaviour:

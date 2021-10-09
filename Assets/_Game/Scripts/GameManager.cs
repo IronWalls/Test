@@ -9,10 +9,8 @@ namespace Completed
 
     public class GameManager : MonoBehaviour
     {
-        public float levelStartDelay = 2f; //Time to wait before starting level, in seconds.
-        public float turnDelay = 0.1f; //Delay between each Player turn.
-        public int playerFoodPoints = 100; //Starting value for Player food points.
-
+        public GameManagerSettings settings;
+        public int playerFoodPoints;
         public static GameManager
             instance = null; //Static instance of GameManager which allows it to be accessed by any other script.
 
@@ -36,10 +34,10 @@ namespace Completed
         {
             //Check if instance already exists
             if (instance == null)
-
-                //if not, set instance to this
+            {
                 instance = this;
-
+                playerFoodPoints = settings.PlayerFoodPoints;
+            }
             //If instance already exists and it's not this:
             else if (instance != this)
 
@@ -95,7 +93,7 @@ namespace Completed
             levelImage.SetActive(true);
 
             //Call the HideLevelImage function with a delay in seconds of levelStartDelay.
-            Invoke("HideLevelImage", levelStartDelay);
+            Invoke("HideLevelImage", settings.LevelStartDelay);
 
             //Clear any Enemy objects in our List to prepare for next level.
             enemies.Clear();
@@ -156,13 +154,13 @@ namespace Completed
             enemiesMoving = true;
 
             //Wait for turnDelay seconds, defaults to .1 (100 ms).
-            yield return new WaitForSeconds(turnDelay);
+            yield return new WaitForSeconds(settings.TurnDelay);
 
             //If there are no enemies spawned (IE in first level):
             if (enemies.Count == 0)
             {
                 //Wait for turnDelay seconds between moves, replaces delay caused by enemies moving when there are none.
-                yield return new WaitForSeconds(turnDelay);
+                yield return new WaitForSeconds(settings.TurnDelay);
             }
 
             //Loop through List of Enemy objects.
