@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
@@ -20,7 +21,7 @@ namespace Completed
         public AudioClip drinkSound1; //1 of 2 Audio clips to play when player collects a soda object.
         public AudioClip drinkSound2; //2 of 2 Audio clips to play when player collects a soda object.
         public AudioClip gameOverSound; //Audio clip to play when player dies.
-
+        public GameManagerMatch3d gameManagerMatch3d;
         private Animator animator; //Used to store a reference to the Player's animator component.
         private int food; //Used to store player food points total during level.
 #if UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE
@@ -175,8 +176,7 @@ namespace Completed
             if (other.tag == "Exit")
             {
                 //Invoke the Restart function to start the next level with a delay of restartLevelDelay (default 1 second).
-                Invoke("Restart", restartLevelDelay);
-
+                GameManager.instance.StartCoroutine(Restart());
                 //Disable the player object since level is over.
                 enabled = false;
             }
@@ -234,8 +234,11 @@ namespace Completed
         }
 
         //Restart reloads the scene when called.
-        private void Restart()
+        private IEnumerator Restart()
         {
+            yield return new WaitForSeconds(restartLevelDelay);
+            gameManagerMatch3d.gameObject.SetActive(true);
+            yield return StartCoroutine(gameManagerMatch3d.PlayMatch3());
             //Load the last scene loaded, in this case Main, the only scene in the game. And we load it in "Single" mode so it replace the existing one
             //and not load all the scene object in the current scene.
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single);
