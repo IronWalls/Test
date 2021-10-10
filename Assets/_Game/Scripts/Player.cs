@@ -12,6 +12,7 @@ namespace Completed
         public int pointsPerSoda = 20; //Number of points to add to player food points when picking up a soda object.
         public int wallDamage = 1; //How much damage a player does to a wall when chopping it.
         public Text foodText; //UI Text to display current player food total.
+        public Slider FoodSlider;
         public AudioClip moveSound1; //1 of 2 Audio clips to play when player moves.
         public AudioClip moveSound2; //2 of 2 Audio clips to play when player moves.
         public AudioClip eatSound1; //1 of 2 Audio clips to play when player collects a food object.
@@ -37,6 +38,7 @@ namespace Completed
             food = GameManager.instance.playerFoodPoints;
 
             //Set the foodText to reflect the current player food total.
+            FoodSlider.value = (float)food / GameManager.instance.settings.PlayerFoodCap;
             foodText.text = "Food: " + food;
 
             //Call the Start function of the MovingObject base class.
@@ -128,6 +130,7 @@ namespace Completed
             //Every time player moves, subtract from food points total.
             food--;
 
+            FoodSlider.value = (float)food / GameManager.instance.settings.PlayerFoodCap;
             //Update food text display to reflect current score.
             foodText.text = "Food: " + food;
 
@@ -221,6 +224,7 @@ namespace Completed
                     foodText.text = "+" + pointsPerFood + " Food: " + food;
                 }
 
+                FoodSlider.value = (float)food / GameManager.instance.settings.PlayerFoodCap;
                 //Call the RandomizeSfx function of SoundManager and pass in two drinking sounds to choose between to play the drinking sound effect.
                 SoundManager.instance.RandomizeSfx(drinkSound1, drinkSound2);
 
@@ -247,6 +251,7 @@ namespace Completed
             //Subtract lost food points from the players total.
             food -= loss;
 
+            FoodSlider.value = (float)food / GameManager.instance.settings.PlayerFoodCap;
             //Update the food display with the new total.
             foodText.text = "-" + loss + " Food: " + food;
 
