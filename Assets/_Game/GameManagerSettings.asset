@@ -12,6 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c27a20e326b33e641b85d6e93322398f, type: 3}
   m_Name: GameManagerSettings
   m_EditorClassIdentifier: 
+  <PossibleFinishPositions>k__BackingField:
+  - {x: 7, y: 7, z: 0}
+  - {x: 6, y: 7, z: 0}
+  <PossiblePlayerPositions>k__BackingField:
+  - {x: 0, y: 0, z: 0}
+  - {x: 1, y: 0, z: 0}
+  <EnemiesPerLevel>k__BackingField: 
   <LevelStartDelay>k__BackingField: 2
   <TurnDelay>k__BackingField: 0.1
   <PlayerFoodPoints>k__BackingField: 100

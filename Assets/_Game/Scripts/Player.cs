@@ -29,6 +29,7 @@ namespace Completed
         //Start overrides the Start function of MovingObject
         protected override void Start()
         {
+            transform.position = GameManager.instance.settings.GetRandomInitialPlayerPosition();
             //Get a component reference to the Player's animator component
             animator = GetComponent<Animator>();
 
