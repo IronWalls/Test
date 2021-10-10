@@ -1,0 +1,4 @@
+A lot of tile counts will be influenced only by memory, so it depends on the target platform for the app.
+We can add disabling physics and animations far enough from the player. 2-3h;
+Save the level it's also not a problem. 3-4h;
+But the project has a lot of singletons and a lot of dirty code with comments. If this application evolves I'll take 8h to refactor it.
