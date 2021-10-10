@@ -43,14 +43,12 @@ namespace Completed
             base.Start();
         }
 
-
         //This function is called when the behaviour becomes disabled or inactive.
         private void OnDisable()
         {
             //When Player object is disabled, store the current local food total in the GameManager so it can be re-loaded in next level.
             GameManager.instance.playerFoodPoints = food;
         }
-
 
         private void Update()
         {
@@ -153,7 +151,6 @@ namespace Completed
             GameManager.instance.playersTurn = false;
         }
 
-
         //OnCantMove overrides the abstract function OnCantMove in MovingObject.
         //It takes a generic parameter T which in the case of Player is a Wall which the player can attack and destroy.
         protected override void OnCantMove<T>(T component)
@@ -167,7 +164,6 @@ namespace Completed
             //Set the attack trigger of the player's animation controller in order to play the player's attack animation.
             animator.SetTrigger("playerChop");
         }
-
 
         //OnTriggerEnter2D is sent when another object enters a trigger collider attached to this object (2D physics only).
         private void OnTriggerEnter2D(Collider2D other)
@@ -185,11 +181,20 @@ namespace Completed
             //Check if the tag of the trigger collided with is Food.
             else if (other.tag == "Food")
             {
+                var isCap = food + pointsPerFood > GameManager.instance.settings.PlayerFoodCap;
                 //Add pointsPerFood to the players current food total.
                 food += pointsPerFood;
-
-                //Update foodText to represent current total and notify player that they gained points
-                foodText.text = "+" + pointsPerFood + " Food: " + food;
+                food = Mathf.Clamp(food, int.MinValue, GameManager.instance.settings.PlayerFoodCap);
+                
+                if (isCap)
+                {
+                    foodText.text = string.Format(GameManager.instance.settings.PlayerFoodCapMessage, pointsPerFood, food);
+                }
+                else
+                {
+                    //Update foodText to represent current total and notify player that they gained points
+                    foodText.text = "+" + pointsPerFood + " Food: " + food;
+                }
 
                 //Call the RandomizeSfx function of SoundManager and pass in two eating sounds to choose between to play the eating sound effect.
                 SoundManager.instance.RandomizeSfx(eatSound1, eatSound2);
@@ -201,11 +206,20 @@ namespace Completed
             //Check if the tag of the trigger collided with is Soda.
             else if (other.tag == "Soda")
             {
-                //Add pointsPerSoda to players food points total
+                var isCap = food + pointsPerSoda > GameManager.instance.settings.PlayerFoodCap;
+                //Add pointsPerFood to the players current food total.
                 food += pointsPerSoda;
+                food = Mathf.Clamp(food, int.MinValue, GameManager.instance.settings.PlayerFoodCap);
 
-                //Update foodText to represent current total and notify player that they gained points
-                foodText.text = "+" + pointsPerSoda + " Food: " + food;
+                if (isCap)
+                {
+                    foodText.text = string.Format(GameManager.instance.settings.PlayerFoodCapMessage, pointsPerFood, food);
+                }
+                else
+                {
+                    //Update foodText to represent current total and notify player that they gained points
+                    foodText.text = "+" + pointsPerFood + " Food: " + food;
+                }
 
                 //Call the RandomizeSfx function of SoundManager and pass in two drinking sounds to choose between to play the drinking sound effect.
                 SoundManager.instance.RandomizeSfx(drinkSound1, drinkSound2);
@@ -215,7 +229,6 @@ namespace Completed
             }
         }
 
-
         //Restart reloads the scene when called.
         private void Restart()
         {
@@ -223,7 +236,6 @@ namespace Completed
             //and not load all the scene object in the current scene.
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single);
         }
-
 
         //LoseFood is called when an enemy attacks the player.
         //It takes a parameter loss which specifies how many points to lose.
@@ -241,7 +253,6 @@ namespace Completed
             //Check to see if game has ended.
             CheckIfGameOver();
         }
-
 
         //CheckIfGameOver checks if the player is out of food points and if so, ends the game.
         private void CheckIfGameOver()
